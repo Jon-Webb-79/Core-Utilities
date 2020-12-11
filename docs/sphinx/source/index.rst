@@ -11,7 +11,7 @@ Welcome to Core Utilities's documentation!
    :caption: Contents:
 
    Introduction
-   OSUtilities
+   FileUtilities
 
 
 Indices and tables
