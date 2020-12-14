@@ -112,7 +112,8 @@ class FileUtilities:
 class ReadTextFileKeywords(FileUtilities):
     """
     A class to find keywords in a text file and the the variable(s)
-    to the right of the key word.
+    to the right of the key word.  This class must inherit the
+    `FileUtilities` class
 
 
     :param file_name: The name of the file being read to include the
@@ -279,6 +280,35 @@ class ReadTextFileKeywords(FileUtilities):
         values = self.read_sentence(key_words)
         values = values.split()
         return np.int32(values[0])
+# ----------------------------------------------------------------------------
+
+    def read_integer_list(self, key_words: str) -> List[np.int32]:
+        """
+
+        :param key_words: The key word that proceeds the data to be
+                          read
+        :return data: The string values following the **key_word** on the
+                      text file.  This variable is returned as a List of
+                      numpy.float32 values
+
+        This function reads a text file and searches for a key word which
+        can be a single word or a string of words.  This function will read
+        the the data points following the key word(s) on the text file as an
+        integer value. The text file can also contain a comment line following
+        the variable being read.  For example we could use this class to
+        read the string value `test` in the following manner.
+
+        .. code-block:: python
+
+            > dat = ReadTextFileKeywords('test_file.txt')
+            > float_data = dat.read_integer_list('integer list:')
+            > print(float_data)
+            [1, 2, 3, 4, 5, 6, 7]
+        """
+        values = self.read_sentence(key_words)
+        values = values.split()
+        values = [np.int32(value) for value in values]
+        return values
 # ----------------------------------------------------------------------------
 
     def read_sentence(self, key_words: str) -> str:

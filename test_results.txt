@@ -1,0 +1,26 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.5, pytest-6.0.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/opt/python@3.8/bin/python3.8
+cachedir: .pytest_cache
+rootdir: /Users/jonwebb/Desktop/Code_Dev/Python/core_utilities
+collecting ... collected 17 items
+
+test_read_files.py::test_count_word_occurrence PASSED                    [  5%]
+test_read_files.py::test_determine_file_size PASSED                      [ 11%]
+test_read_files.py::test_determine_file_line_count PASSED                [ 17%]
+test_read_files.py::test_file_word_count PASSED                          [ 23%]
+test_read_files.py::test_current_working_directory PASSED                [ 29%]
+test_read_files.py::test_verify_file_existence PASSED                    [ 35%]
+test_read_files.py::test_file_existence_not_verified PASSED              [ 41%]
+test_read_files.py::test_file_not_found PASSED                           [ 47%]
+test_read_files.py::test_read_double PASSED                              [ 52%]
+test_read_files.py::test_read_double_list PASSED                         [ 58%]
+test_read_files.py::test_read_float PASSED                               [ 64%]
+test_read_files.py::test_float_list PASSED                               [ 70%]
+test_read_files.py::test_read_integer PASSED                             [ 76%]
+test_read_files.py::test_read_integer_list PASSED                        [ 82%]
+test_read_files.py::test_read_sentence PASSED                            [ 88%]
+test_read_files.py::test_read_string PASSED                              [ 94%]
+test_read_files.py::test_read_string_list PASSED                         [100%]
+
+============================== 17 passed in 0.23s ==============================
+Mon Dec 14 09:50:07 MST 2020
