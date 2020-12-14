@@ -1,0 +1,5 @@
+sentence: This is a short sentence!
+float: 3.1415 # comment line
+double: 3.141596235941
+String: test
+Integer: 3

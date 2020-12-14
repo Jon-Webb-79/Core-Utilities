@@ -1,11 +1,11 @@
 # Import modules here
 import sys
 import os
-import pytest
+import numpy as np
 from math import isclose
 sys.path.insert(0, os.path.abspath('../src'))
 
-from read_files import FileUtilities
+from read_files import FileUtilities, ReadTextFileKeywords
 # ==============================================================================
 # ==============================================================================
 # Date:    December 11, 2020
@@ -96,7 +96,8 @@ def test_verify_file_existence():
     """
     util = FileUtilities()
     file = '../data/test/text_file.txt'
-    util.verify_file_existence(file)
+    status = util.verify_file_existence(file)
+    assert status
 # ------------------------------------------------------------------------------
 
 
@@ -108,8 +109,40 @@ def test_file_existence_not_verified():
     """
     util = FileUtilities()
     file = '../data/test/no_text_file.txt'
-    with pytest.raises(SystemExit):
-        util.verify_file_existence(file)
+    status = util.verify_file_existence(file)
+    assert not status
+# ==============================================================================
+# ==============================================================================
+# Test ReadTextFileKeywords
+
+
+def test_read_float():
+    """
+
+    This function tests the ReadTextFileKeywords.read_float function to
+    determine if it correctly reads in a variable as a numpy.float32
+    variable.
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    value = key.read_float('float:')
+    assert isclose(value, 3.1415, rel_tol=1.0e-3)
+    assert isinstance(value, np.float32)
+# ------------------------------------------------------------------------------
+
+
+def test_read_sentence():
+    """
+
+    This function tests the ReadTextFileKeywords.read_sentence
+    function to determine if it can properly read a sentence as
+    a string
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    sentence = key.read_sentence('sentence:')
+    assert sentence == "This is a short sentence!"
+    assert isinstance(sentence, str)
 # ==============================================================================
 # ==============================================================================
 # eof

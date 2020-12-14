@@ -12,6 +12,7 @@ Welcome to Core Utilities's documentation!
 
    Introduction
    FileUtilities
+   ReadTextFileKeywords
 
 
 Indices and tables
