@@ -112,6 +112,32 @@ def test_file_existence_not_verified():
     file = '../data/test/no_text_file.txt'
     status = util.verify_file_existence(file)
     assert not status
+# ------------------------------------------------------------------------------
+
+
+def test_verify_directory_existence():
+    """
+
+    This function tests the FileUtilities.verify_directory_existence function to
+    ensure it can correctly identify that a file does exist
+    """
+    util = FileUtilities()
+    file = '../data/test/test_directory'
+    status = util.verify_directory_existence(file)
+    assert status
+# ------------------------------------------------------------------------------
+
+
+def test_directory_existence_not_verified():
+    """
+
+    This function tests the FileUtilities.verify_directory_existence function to
+    ensure it can correctly identify that a file does exist
+    """
+    util = FileUtilities()
+    file = '../data/test/no_directory'
+    status = util.verify_directory_existence(file)
+    assert not status
 # ==============================================================================
 # ==============================================================================
 # Test ReadTextFileKeywords

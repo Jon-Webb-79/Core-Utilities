@@ -20,8 +20,8 @@ __version__ = "1.0"
 class FileUtilities:
     """
     This set of functions were written as class methods in order
-    to ensure that they can be passed via decorator patters or
-    through inheritance.
+    to ensure that they can be passed in bulk via decorator patters
+    or through inheritance.
     """
     @classmethod
     def count_occurrence_of_word_in_file(cls, file_name: str, word: str) -> int:
@@ -94,6 +94,17 @@ class FileUtilities:
         file = open(file_name, "rt")
         data = file.read()
         return len(data.split())
+# ----------------------------------------------------------------------------
+
+    @classmethod
+    def verify_directory_existence(cls, directory_name: str) -> bool:
+        """
+
+        :param directory_name: The directory name to include the path-link
+        :return status: True or false if the directory does or does not
+                        exist
+        """
+        return os.path.isdir(directory_name)
 # ----------------------------------------------------------------------------
 
     @classmethod
