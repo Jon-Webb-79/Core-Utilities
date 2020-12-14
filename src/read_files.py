@@ -53,6 +53,21 @@ class FileUtilities:
 # ----------------------------------------------------------------------------
 
     @classmethod
+    def create_file(cls, file_name: str) -> None:
+        """
+
+        :param file_name: The name of the file to be created to
+                          include the path link
+        :return None:
+
+        This function creates a file in a method that mimics the touch
+        command in Linux
+        """
+        with open(file_name, 'w') as fp:
+            pass
+# ----------------------------------------------------------------------------
+
+    @classmethod
     def current_working_directory(cls) -> str:
         """
 

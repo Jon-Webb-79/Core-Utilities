@@ -36,6 +36,21 @@ def test_count_word_occurrence():
 # ------------------------------------------------------------------------------
 
 
+def test_create_file():
+    """
+
+    This function tests the create_file function to ensure that it
+    correctly creates an ASCII based text file
+    """
+    util = FileUtilities()
+    file = '../data/test/create_file_test.txt'
+    util.create_file(file)
+    assert os.path.isfile(file)
+    if os.path.isfile(file):
+        os.remove(file)
+# ------------------------------------------------------------------------------
+
+
 def test_determine_file_size():
     """
 
