@@ -411,5 +411,4 @@ class ReadTextFileKeywords(FileUtilities):
         return values
 # ============================================================================
 # ============================================================================
-# TODO Add read_integer_list function
 # eof
