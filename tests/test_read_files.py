@@ -144,6 +144,23 @@ def test_read_double():
 # ------------------------------------------------------------------------------
 
 
+def test_read_double_list():
+    """
+
+    This function tests the ReadTextFileKeywords.read_double_list
+    function to determine if it can properly read a variable
+    as a list of double precision values
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    double_value = key.read_double_list('double list:')
+    expected = [1.12321, 344.3454453, 21.434553]
+    for i in range(len(double_value)):
+        assert isclose(double_value[i], expected[i], rel_tol=1.0e-3)
+        assert isinstance(double_value[i], np.float64)
+# ------------------------------------------------------------------------------
+
+
 def test_read_float():
     """
 

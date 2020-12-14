@@ -167,6 +167,35 @@ class ReadTextFileKeywords(FileUtilities):
         return np.float64(values[0])
 # ----------------------------------------------------------------------------
 
+    def read_double_list(self, key_words: str) -> List[np.float64]:
+        """
+
+        :param key_words: The key word that proceeds the data to be
+                          read
+        :return data: The string values following the **key_word** on the
+                      text file.  This variable is returned as a List of
+                      string values
+
+        This function reads a text file and searches for a key word which
+        can be a single word or a string of words.  This function will read
+        the the data points following the key word(s) on the text file as a
+        numpy.float64 value. The text file can also contain a comment line following
+        the variable being read.  For example we could use this class to
+        read the string value `test` in the following manner.
+
+        .. code-block:: python
+
+            > dat = ReadTextFileKeywords('test_file.txt')
+            > str_data = dat.read_double_list('double list:')
+            > print(str_data)
+            [1.12321, 344.3454453, 21.434553]
+        """
+        values = self.read_sentence(key_words)
+        values = values.split()
+        values = [np.float64(value) for value in values]
+        return values
+# ----------------------------------------------------------------------------
+
     def read_float(self, key_words: str) -> np.float32:
         """
 
@@ -352,6 +381,5 @@ class ReadTextFileKeywords(FileUtilities):
         return values
 # ============================================================================
 # ============================================================================
-# TODO Add read_double_list function
 # TODO Add read_integer_list function
 # eof
