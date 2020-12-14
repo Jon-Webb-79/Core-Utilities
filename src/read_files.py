@@ -110,6 +110,11 @@ class FileUtilities:
 
 class ReadTextFileKeywords(FileUtilities):
     def __init__(self, file_name: str):
+        """
+
+        :param file_name: The name of the file being read to
+                          include the path-link
+        """
         self.file_name = file_name
         if not self.verify_file_existence(file_name):
             sys.exit('{}{}{}'.format('FATAL ERROR: ', file_name, ' does not exist'))
