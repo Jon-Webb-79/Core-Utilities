@@ -120,13 +120,14 @@ class ReadTextFileKeywords(FileUtilities):
             sys.exit('{}{}{}'.format('FATAL ERROR: ', file_name, ' does not exist'))
 # ----------------------------------------------------------------------------
 
-    def read_float(self, key_words) -> float:
+    def read_float(self, key_words: str) -> np.float32:
         """
 
         :param key_words: The key word that proceeds the data to be
                           read
         :return data: The float value following the **key_word** on the
-                      text file
+                      text file.  This variable is returned as a
+                      np.float32 data type
 
         This function reads a text file and searches for a key word which
         can be a single word or a string of words.  This function will read
@@ -134,17 +135,44 @@ class ReadTextFileKeywords(FileUtilities):
         The text file can also contain a comment line following the variable
         being read.  if the text string contains the following;
 
-        *data_point: 3.1415 # This is a comment*
+        *data_point: 3.1415 # This is a comment* or
+        *data point: 3.1415 # This is a comment*
 
-        The term *data_point:* is the key word and *3.1415* is the
-        data being read by the function.
+        The term *data_point:* or *data point* is the key word and *3.1415*
+        is the data being read by the function.
         """
         values = self.read_sentence(key_words)
         values = values.split()
         return np.float32(values[0])
 # ----------------------------------------------------------------------------
 
-    def read_sentence(self, key_words) -> str:
+    def read_integer(self, key_words: str) -> np.int32:
+        """
+
+        :param key_words: The key word that proceeds the data to be
+                          read
+        :return data: The integer value following the **key_word** on the
+                      text file.  This variable is returned as a np.int32
+                      data type
+
+        This function reads a text file and searches for a key word which
+        can be a single word or a string of words.  This function will read
+        the data following the key word(s) on the text file as a float value.
+        The text file can also contain a comment line following the variable
+        being read.  if the text string contains the following;
+
+        *data_point: 3 # This is a comment* or
+        *data point: 3 # This is a comment*
+
+        The term *data_point:* or *data point* is the key word and *3* is the
+        data being read by the function.
+        """
+        values = self.read_sentence(key_words)
+        values = values.split()
+        return np.int32(values[0])
+# ----------------------------------------------------------------------------
+
+    def read_sentence(self, key_words: str) -> str:
         """
 
         :param key_words: The key word that proceeds the data to be

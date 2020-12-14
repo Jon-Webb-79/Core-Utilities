@@ -131,6 +131,21 @@ def test_read_float():
 # ------------------------------------------------------------------------------
 
 
+def test_read_integer():
+    """
+
+    This function tests the ReadTextFileKeywords.read_float function to
+    determine if it correctly reads in a variable as a numpy.int32
+    variable.
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    value = key.read_integer('Integer Value:')
+    assert value == 3
+    assert isinstance(value, np.int32)
+# ------------------------------------------------------------------------------
+
+
 def test_read_sentence():
     """
 
