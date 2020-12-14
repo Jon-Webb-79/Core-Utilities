@@ -2,6 +2,7 @@
 import os
 import sys
 import numpy as np
+from typing import List
 # ============================================================================
 # ============================================================================
 # Date:    December 10, 2020
@@ -160,8 +161,6 @@ class ReadTextFileKeywords(FileUtilities):
             > double_data = dat.read_double('double:')
             > print(double_data)
             3.141596235941
-
-        The data is returned as a numpy.float64 value
         """
         values = self.read_sentence(key_words)
         values = values.split()
@@ -190,8 +189,6 @@ class ReadTextFileKeywords(FileUtilities):
            > float_data = dat.read_float('float data:')
            > print(float_data)
            3.1415
-
-        The data is returned as a numpy.float32 value
         """
         values = self.read_sentence(key_words)
         values = values.split()
@@ -220,8 +217,6 @@ class ReadTextFileKeywords(FileUtilities):
            > int_data = dat.read_float('Integer Value')
            > print(int_data)
            3
-
-        The data is returned as a numpy.int32 value
         """
         values = self.read_sentence(key_words)
         values = values.split()
@@ -233,7 +228,8 @@ class ReadTextFileKeywords(FileUtilities):
 
         :param key_words: The key word that proceeds the data to be
                           read
-        :return data: The data following the **key_word** on the text file
+        :return data: The data following the **key_word** on the text file.
+                      The data is returned as a continuous string value
 
         This function reads a text file and searches for a key word which
         can be a single word or a string of words.  This function will read
@@ -248,8 +244,6 @@ class ReadTextFileKeywords(FileUtilities):
            > str_data = dat.read_float('sentence:')
            > print(str_data)
            'This is a short sentence!'
-
-        The data is returned as str value
         """
         input_words = key_words.split()
         with open(self.file_name) as Input_File:
@@ -278,7 +272,7 @@ class ReadTextFileKeywords(FileUtilities):
         :param key_words: The key word that proceeds the data to be
                           read
         :return data: The string value following the **key_word** on the
-                      text file.  This variable is returned as a np.int32
+                      text file.  This variable is returned as a str
                       data type
 
         This function reads a text file and searches for a key word which
@@ -294,15 +288,41 @@ class ReadTextFileKeywords(FileUtilities):
            > str_data = dat.read_float('String:')
            > print(str_data)
            'test'
-
-        The data is returned as a str value
         """
         values = self.read_sentence(key_words)
         values = values.split()
         return str(values[0])
+# ----------------------------------------------------------------------------
+
+    def read_string_list(self, key_words: str) -> List[str]:
+        """
+
+        :param key_words: The key word that proceeds the data to be
+                          read
+        :return data: The string values following the **key_word** on the
+                      text file.  This variable is returned as a List of
+                      string values
+
+        This function reads a text file and searches for a key word which
+        can be a single word or a string of words.  This function will read
+        the the first data point following the key word(s) on the text file as a
+        string value. The text file can also contain a comment line following
+        the variable being read.  For example we could use this class to
+        read the string value `test` in the following manner.
+
+        .. code-block:: python
+
+            > dat = ReadTextFileKeywords('test_file.txt')
+            > str_data = dat.read_string_list('sentence:')
+            > print(str_data)
+            ['This', 'is', 'a', 'short', 'sentence!']
+        """
+        values = self.read_sentence(key_words)
+        values = values.split()
+        values = [str(value) for value in values]
+        return values
 # ============================================================================
 # ============================================================================
-# TODO Add read_string_list function
 # TODO Add read_float_list function
 # TODO Add read_double_list function
 # TODO Add read_integer_list function

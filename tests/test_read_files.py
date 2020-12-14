@@ -1,6 +1,7 @@
 # Import modules here
 import sys
 import os
+import pytest
 import numpy as np
 from math import isclose
 sys.path.insert(0, os.path.abspath('../src'))
@@ -116,6 +117,18 @@ def test_file_existence_not_verified():
 # Test ReadTextFileKeywords
 
 
+def test_file_not_found():
+    """
+
+    This function ensures that the ReadTextFileKeywords class fails
+    correctly when the file cannot be found
+    """
+    file = '../data/test/not_file_found.txt'
+    with pytest.raises(SystemExit):
+        ReadTextFileKeywords(file)
+# ------------------------------------------------------------------------------
+
+
 def test_read_double():
     """
 
@@ -179,7 +192,7 @@ def test_read_sentence():
 def test_read_string():
     """
 
-    This function tests the ReadTextFileKeywords.read_sentence
+    This function tests the ReadTextFileKeywords.read_string
     function to determine if it can properly read a variable
     as a single string
     """
@@ -188,6 +201,22 @@ def test_read_string():
     sentence = key.read_string('String:')
     assert sentence == "test"
     assert isinstance(sentence, str)
+# ------------------------------------------------------------------------------
+
+
+def test_read_string_list():
+    """
+
+    This function tests the ReadTextFileKeywords.read_string_list
+    function to determine if it can properly read a variable
+    as a list of string values
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    sentence = key.read_string_list('sentence:')
+    assert sentence == ['This', 'is', 'a', 'short', 'sentence!']
+    for i in sentence:
+        assert isinstance(i, str)
 # ==============================================================================
 # ==============================================================================
 # eof
