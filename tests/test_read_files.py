@@ -51,6 +51,21 @@ def test_create_file():
 # ------------------------------------------------------------------------------
 
 
+def test_delete_directory():
+    """
+
+    This function tests the create_file function to ensure that it
+    correctly creates an ASCII based text file
+    """
+    util = FileUtilities()
+    dir = '../data/test/test_directory'
+    util.delete_directory(dir)
+    assert not os.path.isdir(dir)
+    if not os.path.isdir(dir):
+        os.mkdir(dir)
+# ------------------------------------------------------------------------------
+
+
 def test_delete_file():
     """
 

@@ -18,6 +18,8 @@ __version__ = "1.0"
 
 
 class FileUtilities:
+    # TODO Add delete directory function
+    # TODO Add delete populated directory
     """
     This set of functions were written as class methods in order
     to ensure that they can be passed in bulk via decorator patters
@@ -77,6 +79,20 @@ class FileUtilities:
         :return cwd: A string describing the current working directory
         """
         return os.getcwd()
+# ----------------------------------------------------------------------------
+
+    @classmethod
+    def delete_directory(cls, directory_name: str) -> None:
+        """
+
+        :param directory_name: The name of the directory to be deleted to
+                               include path links
+        :return None:
+        """
+        if not os.path.isdir(directory_name):
+            print('{}{}'.format(directory_name, ' does not exist'))
+        else:
+            os.rmdir(directory_name)
 # ----------------------------------------------------------------------------
 
     @classmethod
