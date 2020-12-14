@@ -158,6 +158,21 @@ def test_read_sentence():
     sentence = key.read_sentence('sentence:')
     assert sentence == "This is a short sentence!"
     assert isinstance(sentence, str)
+# ------------------------------------------------------------------------------
+
+
+def test_read_string():
+    """
+
+    This function tests the ReadTextFileKeywords.read_sentence
+    function to determine if it can properly read a variable
+    as a single string
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    sentence = key.read_string('String:')
+    assert sentence == "test"
+    assert isinstance(sentence, str)
 # ==============================================================================
 # ==============================================================================
 # eof

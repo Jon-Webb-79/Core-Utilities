@@ -109,12 +109,15 @@ class FileUtilities:
 
 
 class ReadTextFileKeywords(FileUtilities):
-    def __init__(self, file_name: str):
-        """
+    """
+    A class to find keywords in a text file and the the variable(s)
+    to the right of the key word.
 
-        :param file_name: The name of the file being read to
-                          include the path-link
-        """
+
+    :param file_name: The name of the file being read to include the
+                      path-link
+    """
+    def __init__(self, file_name: str):
         self.file_name = file_name
         if not self.verify_file_existence(file_name):
             sys.exit('{}{}{}'.format('FATAL ERROR: ', file_name, ' does not exist'))
@@ -131,15 +134,31 @@ class ReadTextFileKeywords(FileUtilities):
 
         This function reads a text file and searches for a key word which
         can be a single word or a string of words.  This function will read
-        the data following the key word(s) on the text file as a float value.
+        the first data point following the key word(s) on the text file as a float value.
         The text file can also contain a comment line following the variable
-        being read.  if the text string contains the following;
+        being read.  For example if a text file titled `test_file.txt` contained
+        the following text;
 
-        *data_point: 3.1415 # This is a comment* or
-        *data point: 3.1415 # This is a comment*
+        .. code-block:: text
 
-        The term *data_point:* or *data point* is the key word and *3.1415*
-        is the data being read by the function.
+           sentence: This is a short sentence!
+           float: 3.1415 # this is a float comment
+           double: 3.141596235941 # this is a double comment
+           String: test # this is a string comment
+           Integer Value: 3 # This is an integer comment
+           float list: 1.2 3.4 4.5 5.6 6.7
+           double list: 1.12321 344.3454453 21.434553
+           integer list: 1 2 3 4 5 6 7
+
+        We could use this class to read the float value 3.1415 in the
+        following manner.
+
+        .. code-block:: python
+
+           > dat = ReadTextFileKeywords('test_file.txt')
+           > float_data = dat.read_float('float data:')
+           > print(float_data)
+           3.1415
         """
         values = self.read_sentence(key_words)
         values = values.split()
@@ -157,15 +176,31 @@ class ReadTextFileKeywords(FileUtilities):
 
         This function reads a text file and searches for a key word which
         can be a single word or a string of words.  This function will read
-        the data following the key word(s) on the text file as a float value.
-        The text file can also contain a comment line following the variable
-        being read.  if the text string contains the following;
+        the the first data point following the key word(s) on the text file as a
+        integer value. The text file can also contain a comment line following
+        the variable being read.  For example if a text file titled
+        `test_file.txt` contained the following text;
 
-        *data_point: 3 # This is a comment* or
-        *data point: 3 # This is a comment*
+        .. code-block:: text
 
-        The term *data_point:* or *data point* is the key word and *3* is the
-        data being read by the function.
+           sentence: This is a short sentence!
+           float: 3.1415 # this is a float comment
+           double: 3.141596235941 # this is a double comment
+           String: test # this is a string comment
+           Integer Value: 3 # This is an integer comment
+           float list: 1.2 3.4 4.5 5.6 6.7
+           double list: 1.12321 344.3454453 21.434553
+           integer list: 1 2 3 4 5 6 7
+
+        We could use this class to read the integer value 3 in the
+        following manner.
+
+        .. code-block:: python
+
+           > dat = ReadTextFileKeywords('test_file.txt')
+           > int_data = dat.read_float('Integer Value')
+           > print(int_data)
+           3
         """
         values = self.read_sentence(key_words)
         values = values.split()
@@ -180,14 +215,32 @@ class ReadTextFileKeywords(FileUtilities):
         :return data: The data following the **key_word** on the text file
 
         This function reads a text file and searches for a key word which
-        can be a single word or a string of words.  This function will
-        read the data following th key words(s) on the text file as a
-        text string.  If the text file contains the following
+        can be a single word or a string of words.  This function will read
+        the data following the key word(s) on the text file as a continuous string.
+        The text file can also contain a comment line following the variable
+        being read.  For example if a text file titled `test_file.txt` contained
+        the following text;
 
-        *data_point: This is the data*
+        .. code-block:: text
 
-        The term *data_point* is the key word and *This is the data* is
-        the string that will be read.
+           sentence: This is a short sentence!
+           float: 3.1415 # this is a float comment
+           double: 3.141596235941 # this is a double comment
+           String: test # this is a string comment
+           Integer Value: 3 # This is an integer comment
+           float list: 1.2 3.4 4.5 5.6 6.7
+           double list: 1.12321 344.3454453 21.434553
+           integer list: 1 2 3 4 5 6 7
+
+        We could use this class to read the integer value 3 in the
+        following manner.
+
+        .. code-block:: python
+
+           > dat = ReadTextFileKeywords('test_file.txt')
+           > str_data = dat.read_float('sentence:')
+           > print(str_data)
+           'This is a short sentence!'
         """
         input_words = key_words.split()
         with open(self.file_name) as Input_File:
@@ -208,6 +261,54 @@ class ReadTextFileKeywords(FileUtilities):
                         word = word + ' ' + variable[i]
                     return word.lstrip()
         sys.exit('{}{}{}'.format(key_words, " Keywords not found in ", self.file_name))
+# ----------------------------------------------------------------------------
+
+    def read_string(self, key_words: str) -> str:
+        """
+
+        :param key_words: The key word that proceeds the data to be
+                          read
+        :return data: The string value following the **key_word** on the
+                      text file.  This variable is returned as a np.int32
+                      data type
+
+        This function reads a text file and searches for a key word which
+        can be a single word or a string of words.  This function will read
+        the the first data point following the key word(s) on the text file as a
+        string value. The text file can also contain a comment line following
+        the variable being read.  For example if a text file titled
+        `test_file.txt` contained the following text;
+
+        .. code-block:: text
+
+           sentence: This is a short sentence!
+           float: 3.1415 # this is a float comment
+           double: 3.141596235941 # this is a double comment
+           String: test # this is a string comment
+           Integer Value: 3 # This is an integer comment
+           float list: 1.2 3.4 4.5 5.6 6.7
+           double list: 1.12321 344.3454453 21.434553
+           integer list: 1 2 3 4 5 6 7
+
+        We could use this class to read the integer value 3 in the
+        following manner.
+
+        .. code-block:: python
+
+           > dat = ReadTextFileKeywords('test_file.txt')
+           > str_data = dat.read_float('String:')
+           > print(str_data)
+           'test'
+        """
+        values = self.read_sentence(key_words)
+        values = values.split()
+        return str(values[0])
 # ============================================================================
 # ============================================================================
+# TODO Add read_string function
+# TODO Add read_double function
+# TODO Add read_string_list function
+# TODO Add read_float_list function
+# TODO Add read_double_list function
+# TODO Add read_integer_list function
 # eof
