@@ -116,11 +116,56 @@ class ReadTextFileKeywords(FileUtilities):
 
     :param file_name: The name of the file being read to include the
                       path-link
+
+    For the purposes of demonstrating the use of this class, assume
+    a text file titled `test_file.txt` with the following contents.
+
+
+    .. code-block:: text
+
+        sentence: This is a short sentence!
+        float: 3.1415 # this is a float comment
+        double: 3.141596235941 # this is a double comment
+        String: test # this is a string comment
+        Integer Value: 3 # This is an integer comment
+        float list: 1.2 3.4 4.5 5.6 6.7
+        double list: 1.12321 344.3454453 21.434553
+        integer list: 1 2 3 4 5 6 7
     """
     def __init__(self, file_name: str):
         self.file_name = file_name
         if not self.verify_file_existence(file_name):
             sys.exit('{}{}{}'.format('FATAL ERROR: ', file_name, ' does not exist'))
+# ----------------------------------------------------------------------------
+
+    def read_double(self, key_words: str) -> np.float64:
+        """
+
+        :param key_words: The key word that proceeds the data to be
+                          read
+        :return data: The float value following the **key_word** on the
+                      text file.  This variable is returned as a
+                      np.float64 data type
+
+        This function reads a text file and searches for a key word which
+        can be a single word or a string of words.  This function will read
+        the first data point following the key word(s) on the text file as a float value.
+        The text file can also contain a comment line following the variable
+        being read.  For example we could use this class to read the double
+        value 3.141596235941 in the following manner.
+
+        .. code-block:: python
+
+            > dat = ReadTextFileKeywords('test_file.txt')
+            > double_data = dat.read_double('double:')
+            > print(double_data)
+            3.141596235941
+
+        The data is returned as a numpy.float64 value
+        """
+        values = self.read_sentence(key_words)
+        values = values.split()
+        return np.float64(values[0])
 # ----------------------------------------------------------------------------
 
     def read_float(self, key_words: str) -> np.float32:
@@ -136,22 +181,8 @@ class ReadTextFileKeywords(FileUtilities):
         can be a single word or a string of words.  This function will read
         the first data point following the key word(s) on the text file as a float value.
         The text file can also contain a comment line following the variable
-        being read.  For example if a text file titled `test_file.txt` contained
-        the following text;
-
-        .. code-block:: text
-
-           sentence: This is a short sentence!
-           float: 3.1415 # this is a float comment
-           double: 3.141596235941 # this is a double comment
-           String: test # this is a string comment
-           Integer Value: 3 # This is an integer comment
-           float list: 1.2 3.4 4.5 5.6 6.7
-           double list: 1.12321 344.3454453 21.434553
-           integer list: 1 2 3 4 5 6 7
-
-        We could use this class to read the float value 3.1415 in the
-        following manner.
+        being read.  For example we could use this class to read the float
+        value 3.1415 in the following manner.
 
         .. code-block:: python
 
@@ -159,6 +190,8 @@ class ReadTextFileKeywords(FileUtilities):
            > float_data = dat.read_float('float data:')
            > print(float_data)
            3.1415
+
+        The data is returned as a numpy.float32 value
         """
         values = self.read_sentence(key_words)
         values = values.split()
@@ -178,22 +211,8 @@ class ReadTextFileKeywords(FileUtilities):
         can be a single word or a string of words.  This function will read
         the the first data point following the key word(s) on the text file as a
         integer value. The text file can also contain a comment line following
-        the variable being read.  For example if a text file titled
-        `test_file.txt` contained the following text;
-
-        .. code-block:: text
-
-           sentence: This is a short sentence!
-           float: 3.1415 # this is a float comment
-           double: 3.141596235941 # this is a double comment
-           String: test # this is a string comment
-           Integer Value: 3 # This is an integer comment
-           float list: 1.2 3.4 4.5 5.6 6.7
-           double list: 1.12321 344.3454453 21.434553
-           integer list: 1 2 3 4 5 6 7
-
-        We could use this class to read the integer value 3 in the
-        following manner.
+        the variable being read.  For example we could use this class to
+        read the integer value 3 in the following manner.
 
         .. code-block:: python
 
@@ -201,6 +220,8 @@ class ReadTextFileKeywords(FileUtilities):
            > int_data = dat.read_float('Integer Value')
            > print(int_data)
            3
+
+        The data is returned as a numpy.int32 value
         """
         values = self.read_sentence(key_words)
         values = values.split()
@@ -218,22 +239,8 @@ class ReadTextFileKeywords(FileUtilities):
         can be a single word or a string of words.  This function will read
         the data following the key word(s) on the text file as a continuous string.
         The text file can also contain a comment line following the variable
-        being read.  For example if a text file titled `test_file.txt` contained
-        the following text;
-
-        .. code-block:: text
-
-           sentence: This is a short sentence!
-           float: 3.1415 # this is a float comment
-           double: 3.141596235941 # this is a double comment
-           String: test # this is a string comment
-           Integer Value: 3 # This is an integer comment
-           float list: 1.2 3.4 4.5 5.6 6.7
-           double list: 1.12321 344.3454453 21.434553
-           integer list: 1 2 3 4 5 6 7
-
-        We could use this class to read the integer value 3 in the
-        following manner.
+        being read.  For example we could use this class to read the integer
+        value `This is a short sentence!` in the following manner.
 
         .. code-block:: python
 
@@ -241,6 +248,8 @@ class ReadTextFileKeywords(FileUtilities):
            > str_data = dat.read_float('sentence:')
            > print(str_data)
            'This is a short sentence!'
+
+        The data is returned as str value
         """
         input_words = key_words.split()
         with open(self.file_name) as Input_File:
@@ -276,22 +285,8 @@ class ReadTextFileKeywords(FileUtilities):
         can be a single word or a string of words.  This function will read
         the the first data point following the key word(s) on the text file as a
         string value. The text file can also contain a comment line following
-        the variable being read.  For example if a text file titled
-        `test_file.txt` contained the following text;
-
-        .. code-block:: text
-
-           sentence: This is a short sentence!
-           float: 3.1415 # this is a float comment
-           double: 3.141596235941 # this is a double comment
-           String: test # this is a string comment
-           Integer Value: 3 # This is an integer comment
-           float list: 1.2 3.4 4.5 5.6 6.7
-           double list: 1.12321 344.3454453 21.434553
-           integer list: 1 2 3 4 5 6 7
-
-        We could use this class to read the integer value 3 in the
-        following manner.
+        the variable being read.  For example we could use this class to
+        read the string value `test` in the following manner.
 
         .. code-block:: python
 
@@ -299,14 +294,14 @@ class ReadTextFileKeywords(FileUtilities):
            > str_data = dat.read_float('String:')
            > print(str_data)
            'test'
+
+        The data is returned as a str value
         """
         values = self.read_sentence(key_words)
         values = values.split()
         return str(values[0])
 # ============================================================================
 # ============================================================================
-# TODO Add read_string function
-# TODO Add read_double function
 # TODO Add read_string_list function
 # TODO Add read_float_list function
 # TODO Add read_double_list function

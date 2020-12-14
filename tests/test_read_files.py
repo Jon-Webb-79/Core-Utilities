@@ -116,6 +116,21 @@ def test_file_existence_not_verified():
 # Test ReadTextFileKeywords
 
 
+def test_read_double():
+    """
+
+    This function tests the ReadTextFileKeywords.read_float function to
+    determine if it correctly reads in a variable as a numpy.float32
+    variable.
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    value = key.read_double('double:')
+    assert isclose(value, 3.141596235941, rel_tol=1.0e-3)
+    assert isinstance(value, np.float64)
+# ------------------------------------------------------------------------------
+
+
 def test_read_float():
     """
 
