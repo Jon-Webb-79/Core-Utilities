@@ -91,19 +91,14 @@ class FileUtilities:
 # ----------------------------------------------------------------------------
 
     @classmethod
-    def verify_file_existence(cls, file_name: str) -> None:
+    def verify_file_existence(cls, file_name: str) -> bool:
         """
 
         :param file_name: The file name to include the path-link
-        :return None:
-
-        This function determines if a file does or does not exist.  If the
-        file does not exist, the function will halt execution and inform
-        the user
+        :return status: True or false if the file does or does not
+                        exist
         """
-        if os.path.isfile(file_name):
-            return
-        sys.exit('{}{}{}'.format('FATAL ERROR: ', file_name, ' does not exist'))
+        return os.path.isfile(file_name)
 # ============================================================================
 # ============================================================================
 # eof
