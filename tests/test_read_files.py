@@ -159,6 +159,23 @@ def test_read_float():
 # ------------------------------------------------------------------------------
 
 
+def test_float_list():
+    """
+
+    This function tests the ReadTextFileKeywords.read_float_list
+    function to determine if it can properly read a variable
+    as a list of float values
+    """
+    file = '../data/test/keywords.txt'
+    key = ReadTextFileKeywords(file)
+    float_value = key.read_float_list('float list:')
+    expected = [1.2, 3.4, 4.5, 5.6, 6.7]
+    for i in range(len(float_value)):
+        assert isclose(float_value[i], expected[i], rel_tol=1.0e-3)
+        assert isinstance(float_value[i], np.float32)
+# ------------------------------------------------------------------------------
+
+
 def test_read_integer():
     """
 

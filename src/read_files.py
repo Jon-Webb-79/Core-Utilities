@@ -195,6 +195,35 @@ class ReadTextFileKeywords(FileUtilities):
         return np.float32(values[0])
 # ----------------------------------------------------------------------------
 
+    def read_float_list(self, key_words: str) -> List[np.float32]:
+        """
+
+        :param key_words: The key word that proceeds the data to be
+                          read
+        :return data: The string values following the **key_word** on the
+                      text file.  This variable is returned as a List of
+                      numpy.float32 values
+
+        This function reads a text file and searches for a key word which
+        can be a single word or a string of words.  This function will read
+        the the data points following the key word(s) on the text file as a
+        float value. The text file can also contain a comment line following
+        the variable being read.  For example we could use this class to
+        read the string value `test` in the following manner.
+
+        .. code-block:: python
+
+            > dat = ReadTextFileKeywords('test_file.txt')
+            > float_data = dat.read_float_list('float list')
+            > print(float_data)
+            [1.2, 3.4, 4.5, 5.6, 6.7]
+        """
+        values = self.read_sentence(key_words)
+        values = values.split()
+        values = [np.float32(value) for value in values]
+        return values
+# ----------------------------------------------------------------------------
+
     def read_integer(self, key_words: str) -> np.int32:
         """
 
@@ -305,7 +334,7 @@ class ReadTextFileKeywords(FileUtilities):
 
         This function reads a text file and searches for a key word which
         can be a single word or a string of words.  This function will read
-        the the first data point following the key word(s) on the text file as a
+        the the data points following the key word(s) on the text file as a
         string value. The text file can also contain a comment line following
         the variable being read.  For example we could use this class to
         read the string value `test` in the following manner.
@@ -323,7 +352,6 @@ class ReadTextFileKeywords(FileUtilities):
         return values
 # ============================================================================
 # ============================================================================
-# TODO Add read_float_list function
 # TODO Add read_double_list function
 # TODO Add read_integer_list function
 # eof
