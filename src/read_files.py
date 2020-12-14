@@ -21,7 +21,10 @@ class FileUtilities:
     """
     This set of functions were written as class methods in order
     to ensure that they can be passed in bulk via decorator patters
-    or through inheritance.
+    or through inheritance.  This class provides file analysis
+    capabilities and a user interface for file and directory management
+    similar to Bash and DOS functionality, although with different
+    syntax
     """
     @classmethod
     def count_occurrence_of_word_in_file(cls, file_name: str, word: str) -> int:
@@ -63,7 +66,7 @@ class FileUtilities:
         This function creates a file in a method that mimics the touch
         command in Linux
         """
-        with open(file_name, 'w') as fp:
+        with open(file_name, 'w'):
             pass
 # ----------------------------------------------------------------------------
 
@@ -74,6 +77,20 @@ class FileUtilities:
         :return cwd: A string describing the current working directory
         """
         return os.getcwd()
+# ----------------------------------------------------------------------------
+
+    @classmethod
+    def delete_file(cls, file_name: str) -> None:
+        """
+
+        :param file_name: The name of the file to be deleted to include
+                          the path link
+        :return None:
+        """
+        if not os.path.isfile(file_name):
+            print('{}{}'.format(file_name, ' does not exist'))
+        else:
+            os.remove(file_name)
 # ----------------------------------------------------------------------------
 
     @classmethod

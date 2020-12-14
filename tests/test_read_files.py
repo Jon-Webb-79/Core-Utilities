@@ -51,6 +51,21 @@ def test_create_file():
 # ------------------------------------------------------------------------------
 
 
+def test_delete_file():
+    """
+
+    This function tests the delete_file function to ensure that it correctly
+    deletes a file
+    """
+    util = FileUtilities()
+    file = '../data/test/delete_test.txt'
+    util.delete_file(file)
+    assert not os.path.isfile(file)
+    if not os.path.isfile(file):
+        util.create_file(file)
+# ------------------------------------------------------------------------------
+
+
 def test_determine_file_size():
     """
 
