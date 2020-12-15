@@ -19,8 +19,12 @@ __version__ = "1.0"
 
 
 class FileUtilities:
-    # TODO Add move directory function
-    # TODO Add cd function
+    # TODO Add mv_all_files
+    # TODO Add mv_file_extensions
+    # TODO Add cp_all_files
+    # TODO Add cp_file_extensions
+    # TODO Add mv_all_directories
+    # TODO ADD cp_all_directories
     """
     This set of functions were written as class methods in order
     to ensure that they can be passed in bulk via decorator patters
@@ -29,6 +33,22 @@ class FileUtilities:
     similar to Bash and DOS functionality, although with different
     syntax
     """
+    @classmethod
+    def change_directory(cls, new_directory: str) -> None:
+        """
+
+        :param new_directory: The desired directory to include
+                              path link
+        :return None:
+
+        This function will change the directory in the same manner as
+        the `cd` DOS and Linux command.
+        """
+        if not os.path.isdir(new_directory):
+            print('{}{}'.format(new_directory, ' does not exist'))
+        os.chdir(new_directory)
+# ----------------------------------------------------------------------------
+
     @classmethod
     def copy_directory(cls, source: str, destination: str) -> None:
         """

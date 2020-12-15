@@ -23,6 +23,22 @@ __version__ = "1.0"
 # Test OSUtilities class
 
 
+def test_change_directory():
+    """
+
+    This function tests the ability of change_directory to properly
+    change a directory
+    """
+    current = os.getcwd()
+    new = current[:-6]
+    util = FileUtilities()
+    util.change_directory("../")
+    assert new == os.getcwd()
+    util.change_directory("tests")
+
+# ------------------------------------------------------------------------------
+
+
 def test_copy_directory():
     """
 
