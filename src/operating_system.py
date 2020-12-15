@@ -18,13 +18,10 @@ __version__ = "1.0"
 # ============================================================================
 
 
-class FileUtilities:
+class OSUtilities:
     # TODO Add mv_all_files
     # TODO Add mv_file_extensions
-    # TODO Add cp_all_files
-    # TODO Add cp_file_extensions
     # TODO Add mv_all_directories
-    # TODO ADD cp_all_directories
     """
     This set of functions were written as class methods in order
     to ensure that they can be passed in bulk via decorator patters
@@ -333,6 +330,8 @@ class FileUtilities:
         :param source: The source directory to include path-links,
                        defaulted to current working directory
         :param extension: Specific file extension to be copied.
+        :param dirs: `True` if user only wants to copy directories,
+                     `False` otherwise
 
         :return None:
 
@@ -340,16 +339,16 @@ class FileUtilities:
         to another directory, or all of a specific type of file to
         another directory, or all directories to another directory
         """
-        files = FileUtilities.list_contents(source, extension)
+        files = OSUtilities.list_contents(source, extension)
         directories = [i for i in files if '.' not in i]
         fls = [i for i in files if '.' in i]
         if not dirs:
             for i in fls:
                 src = source + "/" + i
-                FileUtilities.copy_file(src, destination)
+                OSUtilities.copy_file(src, destination)
         for j in directories:
             src = source + "/" + j
-            FileUtilities.copy_directory(src, destination + "/" + j)
+            OSUtilities.copy_directory(src, destination + "/" + j)
 # ----------------------------------------------------------------------------
 
     @classmethod
@@ -380,7 +379,7 @@ class FileUtilities:
 # ============================================================================
 
 
-class ReadTextFileKeywords(FileUtilities):
+class ReadTextFileKeywords(OSUtilities):
     """
     A class to find keywords in a text file and the the variable(s)
     to the right of the key word.  This class must inherit the
