@@ -1,6 +1,7 @@
 # Import necessary packages here
 import os
 import sys
+import shutil
 import numpy as np
 from typing import List
 # ============================================================================
@@ -18,8 +19,11 @@ __version__ = "1.0"
 
 
 class FileUtilities:
-    # TODO Add delete directory function
-    # TODO Add delete populated directory
+    # TODO Add Copy file function
+    # TODO Add Copy directory function
+    # TODO Add move directory function
+    # TODO Add move file function
+    # TODO Add cd function
     """
     This set of functions were written as class methods in order
     to ensure that they can be passed in bulk via decorator patters
@@ -58,6 +62,22 @@ class FileUtilities:
 # ----------------------------------------------------------------------------
 
     @classmethod
+    def create_directory(cls, directory_name: str) -> None:
+        """
+
+        :param directory_name: The name of the directory to be created
+                               to include the path-link
+        :return None:
+
+        This function creates a directory
+        """
+        if os.path.isdir(directory_name):
+            print('{}{}'.format(directory_name, ' already exists'))
+        else:
+            os.mkdir(directory_name)
+# ----------------------------------------------------------------------------
+
+    @classmethod
     def create_file(cls, file_name: str) -> None:
         """
 
@@ -77,6 +97,9 @@ class FileUtilities:
         """
 
         :return cwd: A string describing the current working directory
+
+        This function returns a string describing the current
+        working directory
         """
         return os.getcwd()
 # ----------------------------------------------------------------------------
@@ -88,6 +111,8 @@ class FileUtilities:
         :param directory_name: The name of the directory to be deleted to
                                include path links
         :return None:
+
+        This function deletes an  un-populated directory
         """
         if not os.path.isdir(directory_name):
             print('{}{}'.format(directory_name, ' does not exist'))
@@ -102,6 +127,8 @@ class FileUtilities:
         :param file_name: The name of the file to be deleted to include
                           the path link
         :return None:
+
+        This function deletes a file
         """
         if not os.path.isfile(file_name):
             print('{}{}'.format(file_name, ' does not exist'))
@@ -110,11 +137,30 @@ class FileUtilities:
 # ----------------------------------------------------------------------------
 
     @classmethod
+    def delete_populated_directory(cls, directory_name: str) -> None:
+        """
+
+        :param directory_name: The name of the directory to be deleted to
+                               include path links
+        :return None:
+
+        This function deletes a directory that is populated with files
+        and other directories
+        """
+        if not os.path.isdir(directory_name):
+            print('{}{}'.format(directory_name, ' does not exist'))
+        else:
+            shutil.rmtree(directory_name)
+# ----------------------------------------------------------------------------
+
+    @classmethod
     def determine_file_size(cls, file_name: str) -> float:
         """
 
         :param file_name: The file name to include path length
         :return kb_size: The size of a file in kilo-bites
+
+        This function returns the size of a file in units of kb
         """
         byte_size = os.stat(file_name).st_size
         return byte_size / 1024.0
@@ -126,6 +172,9 @@ class FileUtilities:
 
         :param file_name: The file name to include the path-link
         :return lines: The number of lines in a file
+
+        This function returns the number of lines in an ASCII
+        based file
         """
         return len(open(file_name).readlines())
 # ----------------------------------------------------------------------------
@@ -138,6 +187,8 @@ class FileUtilities:
         :return words: The number of words in a file.  A word is defined
                        as a continuous string of characters with no empty
                        spaces in the string
+
+        This function returns the number of words in an ASCII based document
         """
         file = open(file_name, "rt")
         data = file.read()
@@ -151,6 +202,8 @@ class FileUtilities:
         :param directory_name: The directory name to include the path-link
         :return status: True or false if the directory does or does not
                         exist
+
+        This function verifies whether or not a directory exists
         """
         return os.path.isdir(directory_name)
 # ----------------------------------------------------------------------------
@@ -162,6 +215,8 @@ class FileUtilities:
         :param file_name: The file name to include the path-link
         :return status: True or false if the file does or does not
                         exist
+
+        This function verifies whether or not a file exists
         """
         return os.path.isfile(file_name)
 # ============================================================================

@@ -36,6 +36,16 @@ def test_count_word_occurrence():
 # ------------------------------------------------------------------------------
 
 
+def test_create_directory():
+    util = FileUtilities()
+    directory = '../data/test/test_directory2'
+    util.create_directory(directory)
+    assert os.path.isdir(directory)
+    if os.path.isdir(directory):
+        os.rmdir(directory)
+# ------------------------------------------------------------------------------
+
+
 def test_create_file():
     """
 
@@ -58,11 +68,11 @@ def test_delete_directory():
     correctly creates an ASCII based text file
     """
     util = FileUtilities()
-    dir = '../data/test/test_directory'
-    util.delete_directory(dir)
-    assert not os.path.isdir(dir)
-    if not os.path.isdir(dir):
-        os.mkdir(dir)
+    dire = '../data/test/test_directory'
+    util.delete_directory(dire)
+    assert not os.path.isdir(dire)
+    if not os.path.isdir(dire):
+        os.mkdir(dire)
 # ------------------------------------------------------------------------------
 
 
@@ -77,6 +87,23 @@ def test_delete_file():
     util.delete_file(file)
     assert not os.path.isfile(file)
     if not os.path.isfile(file):
+        util.create_file(file)
+# ------------------------------------------------------------------------------
+
+
+def test_remove_populated_directory():
+    """
+
+    This function tests the remove_populated_directory function to determine
+    if it correctly removes a populated directory
+    """
+    util = FileUtilities()
+    directory = '../data/test/populated_dir1'
+    file = '../data/test/populated_dir1/test.txt'
+    util.delete_populated_directory(directory)
+    assert not os.path.isdir(directory)
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
         util.create_file(file)
 # ------------------------------------------------------------------------------
 
