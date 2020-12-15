@@ -235,6 +235,28 @@ class FileUtilities:
 # ----------------------------------------------------------------------------
 
     @classmethod
+    def move_directory(cls, source: str, destination: str) -> None:
+        """
+
+        :param source: The name of the file being moved to include the
+                       path-link
+        :param destination: The name of the file at its new destination
+                            to include the path link
+        :return None:
+
+        This function will move a file to a new location and give it a
+        different or identical user define name.  The original file
+        and location will be deleted
+        """
+        if not os.path.isdir(source):
+            print('{}{}'.format(source, ' does not exist'))
+        elif os.path.isdir(destination):
+            print('{}{}'.format(destination, ' already exists'))
+        else:
+            shutil.move(source, destination)
+# ----------------------------------------------------------------------------
+
+    @classmethod
     def move_file(cls, source: str, destination: str) -> None:
         """
 

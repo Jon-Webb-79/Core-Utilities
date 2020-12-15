@@ -251,7 +251,7 @@ def test_directory_existence_not_verified():
 def test_move_file():
     """
 
-    This function test the move_file function to ensure that it
+    This function test the move_file_or_directory function to ensure that it
     successfully moves files between different locations
     """
     util = FileUtilities()
@@ -261,6 +261,24 @@ def test_move_file():
     assert os.path.isfile(file2)
     if os.path.isfile(file2):
         util.move_file(file2, file1)
+# ------------------------------------------------------------------------------
+
+
+def test_move_directory():
+    """
+
+    This function test the move_file_or_directory function to ensure that it
+    successfully moves directories between different locations
+    """
+    util = FileUtilities()
+    file1 = '../data/test/populated_dir2'
+    file2 = '../data/test/move_directory2/populated_dir2'
+    file3 = '../data/test/move_directory2/populated_dir2/test.txt'
+    util.move_directory(file1, file2)
+    assert os.path.isdir(file2)
+    assert os.path.isfile(file3)
+    if os.path.isdir(file2):
+        util.move_directory(file2, file1)
 # ==============================================================================
 # ==============================================================================
 # Test ReadTextFileKeywords
