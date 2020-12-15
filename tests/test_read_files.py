@@ -88,8 +88,13 @@ def test_count_word_occurrence():
 
 
 def test_create_directory():
+    """
+
+    This function tests the create_directory command to ensure it correctly
+    creates a directory
+    """
     util = FileUtilities()
-    directory = '../data/test/test_directory2'
+    directory = '../data/test/test_directory3'
     util.create_directory(directory)
     assert os.path.isdir(directory)
     if os.path.isdir(directory):
@@ -209,6 +214,57 @@ def test_current_working_directory():
     cwd = util.current_working_directory()
     answer = os.getcwd()
     assert cwd == answer
+# ------------------------------------------------------------------------------
+
+
+def test_copy_files_everything():
+    """
+
+    This function tests the copy_files function to ensure that it
+    correctly copies all contents of a directory to a new directory
+    """
+    source = '../data/test/move_directory3'
+    destination = '../data/test/move_directory2'
+    util = FileUtilities()
+    util.copy_files(destination, source)
+    assert os.path.isfile('../data/test/move_directory2/test1.txt')
+    assert os.path.isfile('../data/test/move_directory2/test2.txt')
+    assert os.path.isdir('../data/test/move_directory2/test')
+    shutil.rmtree('../data/test/move_directory2/test')
+    os.remove('../data/test/move_directory2/test1.txt')
+    os.remove('../data/test/move_directory2/test2.txt')
+# ------------------------------------------------------------------------------
+
+
+def test_copy_files_files():
+    """
+
+    This function tests the copy_files function to ensure that it
+    correctly copies text file contents of a directory to a new directory
+    """
+    source = '../data/test/move_directory3'
+    destination = '../data/test/move_directory2'
+    util = FileUtilities()
+    util.copy_files(destination, source, '.txt')
+    assert os.path.isfile('../data/test/move_directory2/test1.txt')
+    assert os.path.isfile('../data/test/move_directory2/test2.txt')
+    os.remove('../data/test/move_directory2/test1.txt')
+    os.remove('../data/test/move_directory2/test2.txt')
+# ------------------------------------------------------------------------------
+
+
+def test_copy_files_dirs():
+    """
+
+    This function tests the copy_files function to ensure that it
+    correctly copies all directories of a directory to a new directory
+    """
+    source = '../data/test/move_directory3'
+    destination = '../data/test/move_directory2'
+    util = FileUtilities()
+    util.copy_files(destination, source, dirs=True)
+    assert os.path.isdir('../data/test/move_directory2/test')
+    shutil.rmtree('../data/test/move_directory2/test')
 # ------------------------------------------------------------------------------
 
 

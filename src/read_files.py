@@ -4,7 +4,6 @@ import sys
 import shutil
 import numpy as np
 from typing import List
-from pathlib import Path
 # ============================================================================
 # ============================================================================
 # Date:    December 10, 2020
@@ -322,6 +321,35 @@ class FileUtilities:
             print('{}{}'.format(destination, ' already exists'))
         else:
             shutil.move(source, destination)
+# ----------------------------------------------------------------------------
+
+    @classmethod
+    def copy_files(cls, destination: str, source: str = os.getcwd(),
+                   extension: str = 'NULL', dirs: bool = False) -> None:
+        """
+
+        :param destination: The destination directory to include
+                            path-links
+        :param source: The source directory to include path-links,
+                       defaulted to current working directory
+        :param extension: Specific file extension to be copied.
+
+        :return None:
+
+        This function will copy all of the contents of a directory
+        to another directory, or all of a specific type of file to
+        another directory, or all directories to another directory
+        """
+        files = FileUtilities.list_contents(source, extension)
+        directories = [i for i in files if '.' not in i]
+        fls = [i for i in files if '.' in i]
+        if not dirs:
+            for i in fls:
+                src = source + "/" + i
+                FileUtilities.copy_file(src, destination)
+        for j in directories:
+            src = source + "/" + j
+            FileUtilities.copy_directory(src, destination + "/" + j)
 # ----------------------------------------------------------------------------
 
     @classmethod
