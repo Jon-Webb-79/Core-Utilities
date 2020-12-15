@@ -245,6 +245,22 @@ def test_directory_existence_not_verified():
     file = '../data/test/no_directory'
     status = util.verify_directory_existence(file)
     assert not status
+# ------------------------------------------------------------------------------
+
+
+def test_move_file():
+    """
+
+    This function test the move_file function to ensure that it
+    successfully moves files between different locations
+    """
+    util = FileUtilities()
+    file1 = '../data/test/move_test.txt'
+    file2 = '../data/test/move_directory1/move_test2.txt'
+    util.move_file(file1, file2)
+    assert os.path.isfile(file2)
+    if os.path.isfile(file2):
+        util.move_file(file2, file1)
 # ==============================================================================
 # ==============================================================================
 # Test ReadTextFileKeywords
