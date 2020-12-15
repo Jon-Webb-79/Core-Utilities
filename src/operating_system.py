@@ -18,9 +18,7 @@ __version__ = "1.0"
 
 
 class OSUtilities:
-    # TODO Add mv_all_files
-    # TODO Add mv_file_extensions
-    # TODO Add mv_all_directories
+    # TODO Update doc strings to include code examples
     """
     This set of functions were written as class methods in order
     to ensure that they can be passed in bulk via decorator patters
@@ -338,6 +336,8 @@ class OSUtilities:
         to another directory, or all of a specific type of file to
         another directory, or all directories to another directory
         """
+        if dirs and extension != 'NULL':
+            print('{}'.format('extension must be null when dirs is True'))
         files = OSUtilities.list_contents(source, extension)
         directories = [i for i in files if '.' not in i]
         fls = [i for i in files if '.' in i]
@@ -348,6 +348,39 @@ class OSUtilities:
         for j in directories:
             src = source + "/" + j
             OSUtilities.copy_directory(src, destination + "/" + j)
+# ----------------------------------------------------------------------------
+
+    @classmethod
+    def move_files(cls, destination: str, source: str = os.getcwd(),
+                   extension: str = 'NULL', dirs: bool = False) -> None:
+        """
+
+        :param destination: The destination directory to include
+                            path-links
+        :param source: The source directory to include path-links,
+                       defaulted to current working directory
+        :param extension: Specific file extension to be copied.
+        :param dirs: `True` if user only wants to copy directories,
+                     `False` otherwise
+
+        :return None:
+
+        This function will move all of the contents of a directory
+        to another directory, or all of a specific type of file to
+        another directory, or all directories to another directory
+        """
+        if dirs and extension != 'NULL':
+            print('{}'.format('extension must be null when dirs is True'))
+        files = OSUtilities.list_contents(source, extension)
+        directories = [i for i in files if '.' not in i]
+        fls = [i for i in files if '.' in i]
+        if not dirs:
+            for i in fls:
+                src = source + "/" + i
+                OSUtilities.move_file(src, destination)
+        for j in directories:
+            src = source + "/" + j
+            OSUtilities.move_directory(src, destination + "/" + j)
 # ----------------------------------------------------------------------------
 
     @classmethod

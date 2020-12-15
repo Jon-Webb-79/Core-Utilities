@@ -233,6 +233,7 @@ def test_copy_files_everything():
     shutil.rmtree('../data/test/move_directory2/test')
     os.remove('../data/test/move_directory2/test1.txt')
     os.remove('../data/test/move_directory2/test2.txt')
+    os.remove('../data/test/move_directory2/.DS_Store')
 # ------------------------------------------------------------------------------
 
 
@@ -265,6 +266,54 @@ def test_copy_files_dirs():
     util.copy_files(destination, source, dirs=True)
     assert os.path.isdir('../data/test/move_directory2/test')
     shutil.rmtree('../data/test/move_directory2/test')
+# ------------------------------------------------------------------------------
+
+
+def test_move_files_everything():
+    """
+
+    This function tests the OSUtilities.move_files function to ensure that it
+    correctly moves all contents of a directory to a new directory
+    """
+    source = '../data/test/move_directory3'
+    destination = '../data/test/move_directory2'
+    util = OSUtilities()
+    util.move_files(destination, source)
+    assert os.path.isfile('../data/test/move_directory2/test1.txt')
+    assert os.path.isfile('../data/test/move_directory2/test2.txt')
+    assert os.path.isdir('../data/test/move_directory2/test')
+    util.move_files(source, destination)
+# ------------------------------------------------------------------------------
+
+
+def test_move_files_files():
+    """
+
+    This function tests the OSUtilities.move_files function to ensure that it
+    correctly moves text file contents of a directory to a new directory
+    """
+    source = '../data/test/move_directory3'
+    destination = '../data/test/move_directory2'
+    util = OSUtilities()
+    util.move_files(destination, source, '.txt')
+    assert os.path.isfile('../data/test/move_directory2/test1.txt')
+    assert os.path.isfile('../data/test/move_directory2/test2.txt')
+    util.move_files(source, destination, '.txt')
+# ------------------------------------------------------------------------------
+
+
+def test_move_files_dirs():
+    """
+
+    This function tests the OSUtilities.copy_files function to ensure that it
+    correctly moves all directories of a directory to a new directory
+    """
+    source = '../data/test/move_directory3'
+    destination = '../data/test/move_directory2'
+    util = OSUtilities()
+    util.move_files(destination, source, dirs=True)
+    assert os.path.isdir('../data/test/move_directory2/test')
+    util.move_files(source, destination, dirs=True)
 # ------------------------------------------------------------------------------
 
 
