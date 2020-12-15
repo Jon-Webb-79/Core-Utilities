@@ -3,6 +3,7 @@ import sys
 import os
 import pytest
 import numpy as np
+import shutil
 from math import isclose
 sys.path.insert(0, os.path.abspath('../src'))
 
@@ -20,6 +21,24 @@ __version__ = "1.0"
 # ==============================================================================
 # ==============================================================================
 # Test OSUtilities class
+
+
+def test_copy_directory():
+    """
+
+    This function tests the ability of the copy_directory function to
+    copy a directory
+    """
+    util = FileUtilities()
+    directory1 = '../data/test/test_directory2'
+    directory2 = '../data/test/test_directory3'
+    file = '../data/test/test_directory3/test.txt'
+    util.copy_directory(directory1, directory2)
+    assert os.path.isdir(directory2)
+    assert os.path.isfile(file)
+    if os.path.isdir(directory2):
+        shutil.rmtree(directory2)
+# ------------------------------------------------------------------------------
 
 
 def test_copy_file():
