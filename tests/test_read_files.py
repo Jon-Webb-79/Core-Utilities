@@ -22,6 +22,22 @@ __version__ = "1.0"
 # Test OSUtilities class
 
 
+def test_copy_file():
+    """
+
+    This function tests the ability of the copy_file function to correctly
+    copy a file
+    """
+    util = FileUtilities()
+    file1 = '../data/test/test_file2.txt'
+    file2 = '../data/test/copy_test.txt'
+    util.copy_file(file1, file2)
+    assert os.path.isfile(file2)
+    if os.path.isfile(file2):
+        os.remove(file2)
+# ------------------------------------------------------------------------------
+
+
 def test_count_word_occurrence():
     """
 

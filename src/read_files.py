@@ -19,7 +19,6 @@ __version__ = "1.0"
 
 
 class FileUtilities:
-    # TODO Add Copy file function
     # TODO Add Copy directory function
     # TODO Add move directory function
     # TODO Add move file function
@@ -32,6 +31,28 @@ class FileUtilities:
     similar to Bash and DOS functionality, although with different
     syntax
     """
+
+    @classmethod
+    def copy_file(cls, source: str, destination: str) -> None:
+        """
+
+        :param source: The name and path-link of the file to be
+                       copied
+        :param destination: The name and path-link for the file copy
+        :return None:
+
+        This function creates a copy of a file and assigns it to the
+        name and directory of the users choosing
+        """
+        if not os.path.isfile(source):
+            print('{}{}'.format(source, ' does not exist'))
+        elif os.path.isfile(destination):
+            print('{}{}'.format(destination, ' already exists'))
+        else:
+            shutil.copy(source, destination)
+# ----------------------------------------------------------------------------
+
+
     @classmethod
     def count_occurrence_of_word_in_file(cls, file_name: str, word: str) -> int:
         """
