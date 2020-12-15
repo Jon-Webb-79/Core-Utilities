@@ -4,6 +4,7 @@ import sys
 import shutil
 import numpy as np
 from typing import List
+from pathlib import Path
 # ============================================================================
 # ============================================================================
 # Date:    December 10, 2020
@@ -252,6 +253,31 @@ class FileUtilities:
         file = open(file_name, "rt")
         data = file.read()
         return len(data.split())
+# ----------------------------------------------------------------------------
+
+    @classmethod
+    def list_contents(cls, directory: str = '.',
+                      extension: str = 'NULL') -> List[str]:
+        """
+
+        :param directory: The directory where the contents are
+                          desired
+        :param extension: A file extension such as `.txt` or `.csv`
+        :return None:
+
+        This function will return a list containing the contents of
+        a specific directory.  The user can enter the directory of
+        interest or default to the current working directory.  The
+        user can also specify the type of file they wish listed
+        """
+
+        if extension != 'NULL':
+            data = os.listdir(directory)
+            length = len(extension)
+            new_data = [i for i in data if extension in i[-length:]]
+            return new_data
+        else:
+            return os.listdir(directory)
 # ----------------------------------------------------------------------------
 
     @classmethod
