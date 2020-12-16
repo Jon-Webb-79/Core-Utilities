@@ -21,14 +21,14 @@ class ReadTextFileKeywords:
     """
     A class to find keywords in a text file and the the variable(s)
     to the right of the key word.  This class must inherit the
-    `FileUtilities` class
+    ``FileUtilities`` class
 
 
     :param file_name: The name of the file being read to include the
                       path-link
 
     For the purposes of demonstrating the use of this class, assume
-    a text file titled `test_file.txt` with the following contents.
+    a text file titled ``test_file.txt`` with the following contents.
 
 
     .. code-block:: text
@@ -89,8 +89,7 @@ class ReadTextFileKeywords:
         can be a single word or a string of words.  This function will read
         the the data points following the key word(s) on the text file as a
         numpy.float64 value. The text file can also contain a comment line following
-        the variable being read.  For example we could use this class to
-        read the string value `test` in the following manner.
+        the variable being read.
 
         .. code-block:: python
 
@@ -146,8 +145,7 @@ class ReadTextFileKeywords:
         can be a single word or a string of words.  This function will read
         the the data points following the key word(s) on the text file as a
         float value. The text file can also contain a comment line following
-        the variable being read.  For example we could use this class to
-        read the string value `test` in the following manner.
+        the variable being read.
 
         .. code-block:: python
 
@@ -175,8 +173,7 @@ class ReadTextFileKeywords:
         can be a single word or a string of words.  This function will read
         the the first data point following the key word(s) on the text file as a
         integer value. The text file can also contain a comment line following
-        the variable being read.  For example we could use this class to
-        read the integer value 3 in the following manner.
+        the variable being read.
 
         .. code-block:: python
 
@@ -203,8 +200,7 @@ class ReadTextFileKeywords:
         can be a single word or a string of words.  This function will read
         the the data points following the key word(s) on the text file as an
         integer value. The text file can also contain a comment line following
-        the variable being read.  For example we could use this class to
-        read the string value `test` in the following manner.
+        the variable being read.
 
         .. code-block:: python
 
@@ -303,8 +299,7 @@ class ReadTextFileKeywords:
         can be a single word or a string of words.  This function will read
         the the data points following the key word(s) on the text file as a
         string value. The text file can also contain a comment line following
-        the variable being read.  For example we could use this class to
-        read the string value `test` in the following manner.
+        the variable being read.
 
         .. code-block:: python
 

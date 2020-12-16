@@ -1,26 +1,45 @@
 ============================= test session starts ==============================
-platform darwin -- Python 3.8.5, pytest-6.0.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/opt/python@3.8/bin/python3.8
+platform darwin -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/jonwebb/venv/core_utilities/bin/python
 cachedir: .pytest_cache
 rootdir: /Users/jonwebb/Desktop/Code_Dev/Python/core_utilities
-collecting ... collected 17 items
+collecting ... collected 36 items
 
-test_read_files.py::test_count_word_occurrence PASSED                    [  5%]
-test_read_files.py::test_determine_file_size PASSED                      [ 11%]
-test_read_files.py::test_determine_file_line_count PASSED                [ 17%]
-test_read_files.py::test_file_word_count PASSED                          [ 23%]
-test_read_files.py::test_current_working_directory PASSED                [ 29%]
-test_read_files.py::test_verify_file_existence PASSED                    [ 35%]
-test_read_files.py::test_file_existence_not_verified PASSED              [ 41%]
-test_read_files.py::test_file_not_found PASSED                           [ 47%]
-test_read_files.py::test_read_double PASSED                              [ 52%]
-test_read_files.py::test_read_double_list PASSED                         [ 58%]
-test_read_files.py::test_read_float PASSED                               [ 64%]
-test_read_files.py::test_float_list PASSED                               [ 70%]
-test_read_files.py::test_read_integer PASSED                             [ 76%]
-test_read_files.py::test_read_integer_list PASSED                        [ 82%]
-test_read_files.py::test_read_sentence PASSED                            [ 88%]
-test_read_files.py::test_read_string PASSED                              [ 94%]
-test_read_files.py::test_read_string_list PASSED                         [100%]
+test_file_readers.py::test_file_not_found PASSED                         [  2%]
+test_file_readers.py::test_read_double PASSED                            [  5%]
+test_file_readers.py::test_read_double_list PASSED                       [  8%]
+test_file_readers.py::test_read_float PASSED                             [ 11%]
+test_file_readers.py::test_float_list PASSED                             [ 13%]
+test_file_readers.py::test_read_integer PASSED                           [ 16%]
+test_file_readers.py::test_read_integer_list PASSED                      [ 19%]
+test_file_readers.py::test_read_sentence PASSED                          [ 22%]
+test_file_readers.py::test_read_string PASSED                            [ 25%]
+test_file_readers.py::test_read_string_list PASSED                       [ 27%]
+test_operating_system.py::test_change_directory PASSED                   [ 30%]
+test_operating_system.py::test_copy_directory PASSED                     [ 33%]
+test_operating_system.py::test_copy_file PASSED                          [ 36%]
+test_operating_system.py::test_count_word_occurrence PASSED              [ 38%]
+test_operating_system.py::test_create_directory PASSED                   [ 41%]
+test_operating_system.py::test_create_file PASSED                        [ 44%]
+test_operating_system.py::test_delete_directory PASSED                   [ 47%]
+test_operating_system.py::test_delete_file PASSED                        [ 50%]
+test_operating_system.py::test_remove_populated_directory PASSED         [ 52%]
+test_operating_system.py::test_determine_file_size PASSED                [ 55%]
+test_operating_system.py::test_determine_file_line_count PASSED          [ 58%]
+test_operating_system.py::test_file_word_count PASSED                    [ 61%]
+test_operating_system.py::test_current_working_directory PASSED          [ 63%]
+test_operating_system.py::test_copy_files_everything PASSED              [ 66%]
+test_operating_system.py::test_copy_files_files PASSED                   [ 69%]
+test_operating_system.py::test_copy_files_dirs PASSED                    [ 72%]
+test_operating_system.py::test_move_files_everything PASSED              [ 75%]
+test_operating_system.py::test_move_files_files PASSED                   [ 77%]
+test_operating_system.py::test_move_files_dirs PASSED                    [ 80%]
+test_operating_system.py::test_verify_file_existence PASSED              [ 83%]
+test_operating_system.py::test_file_existence_not_verified PASSED        [ 86%]
+test_operating_system.py::test_verify_directory_existence PASSED         [ 88%]
+test_operating_system.py::test_directory_existence_not_verified PASSED   [ 91%]
+test_operating_system.py::test_move_file PASSED                          [ 94%]
+test_operating_system.py::test_list_contents PASSED                      [ 97%]
+test_operating_system.py::test_move_directory PASSED                     [100%]
 
-============================== 17 passed in 0.23s ==============================
-Mon Dec 14 09:50:07 MST 2020
+============================== 36 passed in 0.30s ==============================
+Wed Dec 16 09:34:10 MST 2020
