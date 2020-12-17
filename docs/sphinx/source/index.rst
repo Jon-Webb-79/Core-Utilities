@@ -13,6 +13,7 @@ Welcome to Core Utilities's documentation!
    Introduction
    FileUtilities
    ReadTextFileKeywords
+   read_columns
 
 
 Indices and tables

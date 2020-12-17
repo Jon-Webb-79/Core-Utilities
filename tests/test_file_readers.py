@@ -7,7 +7,7 @@ import shutil
 from math import isclose
 sys.path.insert(0, os.path.abspath('../src'))
 
-from read_files import ReadTextFileKeywords
+from read_files import ReadTextFileKeywords, read_csv_columns_by_headers
 # ==============================================================================
 # ==============================================================================
 # Date:    December 11, 2020
@@ -174,6 +174,63 @@ def test_read_string_list():
     assert sentence == ['This', 'is', 'a', 'short', 'sentence!']
     for i in sentence:
         assert isinstance(i, str)
+# ==============================================================================
+# ==============================================================================
+# Test read column functions
+
+
+def test_read_csv_by_headers():
+    """
+
+    This function tests the read_csv_columns_by_headers function to ensure
+    it properly reads in a csv file with the headers placed at the top
+    of the file
+    """
+    file_name = '../data/test/test1.csv'
+    headers = ['ID', 'Inventory', 'Weight_per', 'Number']
+    dat = [np.int64, str, np.float64, np.int64]
+    df = read_csv_columns_by_headers(file_name, headers, dat)
+    id = np.array([1, 2, 3, 4], dtype=int)
+    inventory = np.array(['shoes', 't-shirt', 'coffee', 'books'], dtype=str)
+    weight = np.array([1.5, 1.8, 2.1, 3.2], dtype=float)
+    number = np.array([5, 3, 15, 40], dtype=int)
+    for i in range(len(df)):
+        assert id[i] == df['ID'][i]
+        assert isinstance(df['ID'][i], np.int64)
+        assert inventory[i] == df['Inventory'][i]
+        assert isinstance(df['Inventory'][i], str)
+        assert weight[i] == df['Weight_per'][i]
+        assert isinstance(df['Weight_per'][i], np.float64)
+        assert number[i] == df['Number'][i]
+        assert isinstance(df['Number'][i], np.int64)
+# ------------------------------------------------------------------------------
+
+
+def test_read_csv_by_headers_below_start():
+    """
+
+    This function tests the read_csv_columns_by_headers function to ensure
+    it properly reads in a csv file with the headers placed below the top
+    of the file
+    """
+    file_name = '../data/test/test1.csv'
+    headers = ['ID', 'Inventory', 'Weight_per', 'Number']
+    dat = [np.int64, str, np.float64, np.int64]
+    df = read_csv_columns_by_headers(file_name, headers, dat)
+
+    id = np.array([1, 2, 3, 4], dtype=int)
+    inventory = np.array(['shoes', 't-shirt', 'coffee', 'books'], dtype=str)
+    weight = np.array([1.5, 1.8, 2.1, 3.2], dtype=float)
+    number = np.array([5, 3, 15, 40], dtype=int)
+    for i in range(len(df)):
+        assert id[i] == df['ID'][i]
+        assert isinstance(df['ID'][i], np.int64)
+        assert inventory[i] == df['Inventory'][i]
+        assert isinstance(df['Inventory'][i], str)
+        assert weight[i] == df['Weight_per'][i]
+        assert isinstance(df['Weight_per'][i], np.float64)
+        assert number[i] == df['Number'][i]
+        assert isinstance(df['Number'][i], np.int64)
 # ==============================================================================
 # ==============================================================================
 # eof
