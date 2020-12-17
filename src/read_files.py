@@ -482,7 +482,7 @@ def read_csv_columns_by_index(file_name: str, col_index: List[int],
 
        > file_name = 'test.csv'
        > headers = [0, 1, 2, 3]
-       names = ['ID', 'Inventory', 'Weight_per', 'Number']
+       > names = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
        > df = read_csv_columns_by_index(file_name, headers, dat, names)
        > print(df)
@@ -529,10 +529,11 @@ def read_csv_columns_by_index(file_name: str, col_index: List[int],
     .. code-block:: python
 
        > file_name = 'test1.csv'
-       headers = [0, 1, 2, 3]
+       > headers = [0, 1, 2, 3]
        > names = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
-       > df = read_csv_columns_by_headers(file_name, headers, dat, skip=2)
+       > df = read_csv_columns_by_headers(file_name, headers,
+                                          dat, names, skip=2)
        > print(df)
            ID Inventory Weight_per Number
         0  1  shoes     1.5        5
@@ -669,6 +670,128 @@ def read_text_columns_by_headers(file_name: str, headers: List[str],
     dat = dict(zip(headers, data_type))
     df = pd.read_csv(file_name, usecols=headers, dtype=dat, skiprows=skip,
                      sep=delimiter)
+    return df
+# ----------------------------------------------------------------------------
+
+
+def read_text_columns_by_index(file_name: str, col_index: List[int],
+                               data_type: List[type], col_names: List[str],
+                               skip: int = 0, delimiter=r"\s+") -> pd.DataFrame:
+    """
+
+    :param file_name: The file name to include path-link
+    :param col_index: A list of the columns to be read by number,
+                      starting with column 0 as the far left column
+    :param data_type: A list containing the data type of each column.  Data
+                      types are limited to ``numpy.int64``, ``numpy.float64``,
+                      and ``str``
+    :param col_names: A list containing the names to be given to
+                      each column
+    :param skip: The number of lines to be skipped before reading data
+    :param delimiter: The type of delimiter separating data in the text file.
+                Defaulted to space delimited, where a space is one or
+                more white spaces.  This function can use any delimiter,
+                to include a comma separation; however, a comma delimiter
+                should be a .csv file extension.
+    :return df: A pandas dataframe containing all relevant information
+
+    Assume we have a .txt file titled ``test.txt`` with the following format.
+
+    .. list-table:: test.txt
+      :widths: 6 10 6 6
+      :header-rows: 0
+
+      * - 1
+        - Shoes
+        - 1.5
+        - 5
+      * - 2
+        - t-shirt
+        - 1.8
+        - 3
+      * - 3
+        - coffee
+        - 2.1
+        - 15
+      * - 4
+        - books
+        - 3.2
+        - 48
+
+    This file can be read via the following command
+
+    .. code-block:: python
+
+       > file_name = 'test.csv'
+       > headers = [0, 1, 2, 3]
+       > names = ['ID', 'Inventory', 'Weight_per', 'Number']
+       > dat = [int, str, float, int]
+       > df = read_text_columns_by_headers(file_name, headers, dat, names)
+       > print(df)
+           ID Inventory Weight_per Number
+        0  1  shoes     1.5        5
+        1  2  t-shirt   1.8        3
+        2  3  coffee    2.1        15
+        3  4  books     3.2        40
+
+    This function can also use the `skip` attributed read data when the
+    headers are not on the first line.  For instance, assume the following csv file;
+
+    .. list-table:: test.txt
+      :widths: 16 8 5 5
+      :header-rows: 0
+
+      * - This line is used to provide metadata for the csv file
+        -
+        -
+        -
+      * - This line is as well
+        -
+        -
+        -
+      * - ID
+        - Inventory
+        - Weight_per
+        - Number
+      * - 1
+        - Shoes
+        - 1.5
+        - 5
+      * - 2
+        - t-shirt
+        - 1.8
+        - 3
+      * - 3
+        - coffee
+        - 2.1
+        - 15
+      * - 4
+        - books
+        - 3.2
+        - 48
+
+    This file can be read via the following command
+
+    .. code-block:: python
+
+       > file_name = 'test.csv'
+       > headers = [0, 1, 2, 3]
+       > names = ['ID', 'Inventory', 'Weight_per', 'Number']
+       > dat = [int, str, float, int]
+       > df = read_text_columns_by_headers(file_name, headers,
+                                           dat, names, skip=2)
+       > print(df)
+           ID Inventory Weight_per Number
+        0  1  shoes     1.5        5
+        1  2  t-shirt   1.8        3
+        2  3  coffee    2.1        15
+        3  4  books     3.2        40
+    """
+    if not os.path.isfile(file_name):
+        sys.exit('{}{}{}'.format('FATAL ERROR: ', file_name, ' does not exist'))
+    dat = dict(zip(col_index, data_type))
+    df = pd.read_csv(file_name, usecols=col_index, names=col_names, dtype=dat,
+                     skiprows=skip, sep=delimiter)
     return df
 # ============================================================================
 # ============================================================================

@@ -9,3 +9,5 @@ From ASCII based text files.  These functions are encoded in the ``read_files.py
 
 .. autofunction:: read_files.read_text_columns_by_headers
 
+.. autofunction:: read_files.read_text_columns_by_index
+

@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.abspath('../src'))
 
 from read_files import ReadTextFileKeywords, read_csv_columns_by_headers
 from read_files import read_csv_columns_by_index, read_text_columns_by_headers
+from read_files import read_text_columns_by_index
 # ==============================================================================
 # ==============================================================================
 # Date:    December 11, 2020
@@ -333,6 +334,65 @@ def test_read_text_by_header_below_start():
     headers = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
     df = read_text_columns_by_headers(file_name, headers, dat, skip=2)
+
+    new_id = np.array([1, 2, 3, 4], dtype=int)
+    inventory = np.array(['shoes', 't-shirt', 'coffee', 'books'], dtype=str)
+    weight = np.array([1.5, 1.8, 2.1, 3.2], dtype=float)
+    number = np.array([5, 3, 15, 40], dtype=int)
+    for i in range(len(df)):
+        assert new_id[i] == df['ID'][i]
+        assert isinstance(df['ID'][i], np.int64)
+        assert inventory[i] == df['Inventory'][i]
+        assert isinstance(df['Inventory'][i], str)
+        assert weight[i] == df['Weight_per'][i]
+        assert isinstance(df['Weight_per'][i], np.float64)
+        assert number[i] == df['Number'][i]
+        assert isinstance(df['Number'][i], np.int64)
+# ------------------------------------------------------------------------------
+
+
+def test_read_text_by_index():
+    """
+
+    This function tests the read_text_columns_by_index function to
+    ensure it properly reads in a space delimited text file with
+    a header in the top row
+    """
+    file_name = '../data/test/textcol3.txt'
+    headers = [0, 1, 2, 3]
+    names= ['ID', 'Inventory', 'Weight_per', 'Number']
+    dat = [np.int64, str, np.float64, np.int64]
+    df = read_text_columns_by_index(file_name, headers, dat, names)
+
+    new_id = np.array([1, 2, 3, 4], dtype=int)
+    inventory = np.array(['shoes', 't-shirt', 'coffee', 'books'], dtype=str)
+    weight = np.array([1.5, 1.8, 2.1, 3.2], dtype=float)
+    number = np.array([5, 3, 15, 40], dtype=int)
+    for i in range(len(df)):
+        assert new_id[i] == df['ID'][i]
+        assert isinstance(df['ID'][i], np.int64)
+        assert inventory[i] == df['Inventory'][i]
+        assert isinstance(df['Inventory'][i], str)
+        assert weight[i] == df['Weight_per'][i]
+        assert isinstance(df['Weight_per'][i], np.float64)
+        assert number[i] == df['Number'][i]
+        assert isinstance(df['Number'][i], np.int64)
+# ------------------------------------------------------------------------------
+
+
+def test_read_text_by_index_below_start():
+    """
+
+    This function tests the read_text_columns_by_index function to
+    ensure it properly reads in a space delimited text file with
+    a header not in the top row
+    """
+    file_name = '../data/test/textcol4.txt'
+    headers = [0, 1, 2, 3]
+    names= ['ID', 'Inventory', 'Weight_per', 'Number']
+    dat = [np.int64, str, np.float64, np.int64]
+    df = read_text_columns_by_index(file_name, headers, dat,
+                                    names, skip=2)
 
     new_id = np.array([1, 2, 3, 4], dtype=int)
     inventory = np.array(['shoes', 't-shirt', 'coffee', 'books'], dtype=str)
