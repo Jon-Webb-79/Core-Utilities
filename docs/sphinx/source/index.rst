@@ -14,6 +14,7 @@ Welcome to Core Utilities's documentation!
    FileUtilities
    ReadTextFileKeywords
    read_columns
+   Plotting
 
 
 Indices and tables
