@@ -1087,7 +1087,6 @@ def read_excel_columns_by_index(file_name: str, tab: str, col_index: List[int],
     df = pd.read_excel(file_name, sheet_name=tab, usecols=col_index,
                        names=col_names, dtype=dat, skiprows=skip, header=None)
     return df
-# TODO Add doc strings
 # ============================================================================
 # ============================================================================
 # eof
