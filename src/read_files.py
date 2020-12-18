@@ -532,8 +532,8 @@ def read_csv_columns_by_index(file_name: str, col_index: List[int],
        > headers = [0, 1, 2, 3]
        > names = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
-       > df = read_csv_columns_by_headers(file_name, headers,
-                                          dat, names, skip=2)
+       > df = read_csv_columns_by_index(file_name, headers,
+                                        dat, names, skip=2)
        > print(df)
            ID Inventory Weight_per Number
         0  1  shoes     1.5        5
@@ -602,7 +602,7 @@ def read_text_columns_by_headers(file_name: str, headers: List[str],
 
     .. code-block:: python
 
-       > file_name = 'test.csv'
+       > file_name = 'test.txt'
        > headers = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
        > df = read_text_columns_by_headers(file_name, headers, dat)
@@ -653,7 +653,7 @@ def read_text_columns_by_headers(file_name: str, headers: List[str],
 
     .. code-block:: python
 
-       > file_name = 'test.csv'
+       > file_name = 'test.txt'
        > headers = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
        > df = read_text_columns_by_headers(file_name, headers,
@@ -722,11 +722,11 @@ def read_text_columns_by_index(file_name: str, col_index: List[int],
 
     .. code-block:: python
 
-       > file_name = 'test.csv'
+       > file_name = 'test.txt'
        > headers = [0, 1, 2, 3]
        > names = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
-       > df = read_text_columns_by_headers(file_name, headers, dat, names)
+       > df = read_text_columns_by_index(file_name, headers, dat, names)
        > print(df)
            ID Inventory Weight_per Number
         0  1  shoes     1.5        5
@@ -774,12 +774,12 @@ def read_text_columns_by_index(file_name: str, col_index: List[int],
 
     .. code-block:: python
 
-       > file_name = 'test.csv'
+       > file_name = 'test.txt'
        > headers = [0, 1, 2, 3]
        > names = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
-       > df = read_text_columns_by_headers(file_name, headers,
-                                           dat, names, skip=2)
+       > df = read_text_columns_by_index(file_name, headers,
+                                        dat, names, skip=2)
        > print(df)
            ID Inventory Weight_per Number
         0  1  shoes     1.5        5
@@ -827,11 +827,11 @@ def read_text_columns_by_index(file_name: str, col_index: List[int],
 
     .. code-block:: python
 
-       > file_name = 'test.csv'
+       > file_name = 'test.txt'
        > headers = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
-       > df = read_text_columns_by_headers(file_name, headers,
-                                           dat, skip=2)
+       > df = read_text_columns_by_index(file_name, headers,
+                                         dat, skip=2)
        > print(df)
            ID Inventory Weight_per Number
         0  1  shoes     1.5        5
@@ -895,10 +895,11 @@ def read_excel_columns_by_headers(file_name: str, tab: str, headers: List[str],
 
     .. code-block:: python
 
-       > file_name = 'test.csv'
+       > file_name = 'test.xls'
+       > tab = "primary"
        > headers = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
-       > df = read_excel_columns_by_headers(file_name, 'primary', headers, dat)
+       > df = read_excel_columns_by_headers(file_name, tab, headers, dat)
        > print(df)
            ID Inventory Weight_per Number
         0  1  shoes     1.5        5
@@ -946,10 +947,11 @@ def read_excel_columns_by_headers(file_name: str, tab: str, headers: List[str],
 
     .. code-block:: python
 
-       > file_name = 'test.csv'
+       > file_name = 'test.xls'
+       > tab = "primary"
        > headers = ['ID', 'Inventory', 'Weight_per', 'Number']
        > dat = [int, str, float, int]
-       > df = read_excel_columns_by_headers(file_name, 'primary',
+       > df = read_excel_columns_by_headers(file_name, tab,
                                             headers, dat, skip=2)
        > print(df)
            ID Inventory Weight_per Number
@@ -964,6 +966,128 @@ def read_excel_columns_by_headers(file_name: str, tab: str, headers: List[str],
     df = pd.read_excel(file_name, sheet_name=tab, usecols=headers,
                        dtype=dat, skiprows=skip)
     return df
+# ----------------------------------------------------------------------------
+
+
+def read_excel_columns_by_index(file_name: str, tab: str, col_index: List[int],
+                                col_names: List[str], data_type: List[type],
+                                skip: int = 0) -> pd.DataFrame:
+    """
+
+    :param file_name: The file name to include path-link.  Must be an
+                      .xls file format.  This code will **not** read .xlsx
+    :param tab: The tab or sheet name that data will be read from
+    :param col_index: A list of the columns to be read by number,
+                      starting with column 0 as the far left column
+    :param col_names: A list containing the names to be given to
+                      each column
+    :param data_type: A list containing the data type of each column.  Data
+                      types are limited to ``numpy.int64``, ``numpy.float64``,
+                      and ``str``
+    :param skip: The number of lines to be skipped before reading data
+    :return df: A pandas dataframe containing all relevant information
+
+    Assume we have a .txt file titled ``test.xls`` with the following format.
+
+    .. list-table:: test.xls
+      :widths: 6 10 6 6
+      :header-rows: 0
+
+      * - 1
+        - Shoes
+        - 1.5
+        - 5
+      * - 2
+        - t-shirt
+        - 1.8
+        - 3
+      * - 3
+        - coffee
+        - 2.1
+        - 15
+      * - 4
+        - books
+        - 3.2
+        - 48
+
+    This file can be read via the following command
+
+    .. code-block:: python
+
+       > file_name = 'test.xls'
+       > tab = 'primary'
+       > headers = [0, 1, 2, 3]
+       > names = ['ID', 'Inventory', 'Weight_per', 'Number']
+       > dat = [int, str, float, int]
+       > df = read_excel_columns_by_index(file_name, tab, headers, names, dat)
+       > print(df)
+           ID Inventory Weight_per Number
+        0  1  shoes     1.5        5
+        1  2  t-shirt   1.8        3
+        2  3  coffee    2.1        15
+        3  4  books     3.2        40
+
+    This function can also use the `skip` attributed read data when the
+    headers are not on the first line.  For instance, assume the following csv file;
+
+    .. list-table:: test.xls
+      :widths: 16 8 5 5
+      :header-rows: 0
+
+      * - This line is used to provide metadata for the csv file
+        -
+        -
+        -
+      * - This line is as well
+        -
+        -
+        -
+      * - ID
+        - Inventory
+        - Weight_per
+        - Number
+      * - 1
+        - Shoes
+        - 1.5
+        - 5
+      * - 2
+        - t-shirt
+        - 1.8
+        - 3
+      * - 3
+        - coffee
+        - 2.1
+        - 15
+      * - 4
+        - books
+        - 3.2
+        - 48
+
+    This file can be read via the following command
+
+    .. code-block:: python
+
+       > file_name = 'test.xls'
+       > tab = "primary"
+       > headers = [0, 1, 2, 3]
+       > names = ['ID', 'Inventory', 'Weight_per', 'Number']
+       > dat = [int, str, float, int]
+       > df = read_excel_columns_by_index(file_name, tab, headers,
+                                          names, dat, skip=2)
+       > print(df)
+           ID Inventory Weight_per Number
+        0  1  shoes     1.5        5
+        1  2  t-shirt   1.8        3
+        2  3  coffee    2.1        15
+        3  4  books     3.2        40
+    """
+    if not os.path.isfile(file_name):
+        sys.exit('{}{}{}'.format('FATAL ERROR: ', file_name, ' does not exist'))
+    dat = dict(zip(col_index, data_type))
+    df = pd.read_excel(file_name, sheet_name=tab, usecols=col_index,
+                       names=col_names, dtype=dat, skiprows=skip, header=None)
+    return df
+# TODO Add doc strings
 # ============================================================================
 # ============================================================================
 # eof
