@@ -4,6 +4,7 @@ import os
 import pytest
 import numpy as np
 from math import isclose
+import platform
 sys.path.insert(0, os.path.abspath('../src'))
 
 from read_files import ReadTextFileKeywords, read_csv_columns_by_headers
@@ -31,7 +32,11 @@ def test_file_not_found():
     This function ensures that the ReadTextFileKeywords class fails
     correctly when the file cannot be found
     """
-    file = '../data/test/not_file_found.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/not_file_found.txt'
+    else:
+        file = r'..\data\test\not_file_found.txt'
     with pytest.raises(SystemExit):
         ReadTextFileKeywords(file)
 # ------------------------------------------------------------------------------
@@ -44,7 +49,11 @@ def test_read_double():
     determine if it correctly reads in a variable as a numpy.float32
     variable.
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     value = key.read_double('double:')
     assert isclose(value, 3.141596235941, rel_tol=1.0e-3)
@@ -59,7 +68,11 @@ def test_read_double_list():
     function to determine if it can properly read a variable
     as a list of double precision values
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     double_value = key.read_double_list('double list:')
     expected = [1.12321, 344.3454453, 21.434553]
@@ -76,7 +89,11 @@ def test_read_float():
     determine if it correctly reads in a variable as a numpy.float32
     variable.
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     value = key.read_float('float:')
     assert isclose(value, 3.1415, rel_tol=1.0e-3)
@@ -91,7 +108,11 @@ def test_float_list():
     function to determine if it can properly read a variable
     as a list of float values
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     float_value = key.read_float_list('float list:')
     expected = [1.2, 3.4, 4.5, 5.6, 6.7]
@@ -108,7 +129,11 @@ def test_read_integer():
     determine if it correctly reads in a variable as a numpy.int32
     variable.
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     value = key.read_integer('Integer Value:')
     assert value == 3
@@ -123,7 +148,11 @@ def test_read_integer_list():
     function to determine if it can properly read a variable
     as a list of float values
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     int_value = key.read_integer_list('integer list:')
     expected = [1, 2, 3, 4, 5, 6, 7]
@@ -140,7 +169,11 @@ def test_read_sentence():
     function to determine if it can properly read a sentence as
     a string
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     sentence = key.read_sentence('sentence:')
     assert sentence == "This is a short sentence!"
@@ -155,7 +188,11 @@ def test_read_string():
     function to determine if it can properly read a variable
     as a single string
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     sentence = key.read_string('String:')
     assert sentence == "test"
@@ -170,7 +207,11 @@ def test_read_string_list():
     function to determine if it can properly read a variable
     as a list of string values
     """
-    file = '../data/test/keywords.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/keywords.txt'
+    else:
+        file = r'..\data\test\keywords.txt'
     key = ReadTextFileKeywords(file)
     sentence = key.read_string_list('sentence:')
     assert sentence == ['This', 'is', 'a', 'short', 'sentence!']
@@ -188,7 +229,11 @@ def test_read_csv_by_headers():
     it properly reads in a csv file with the headers placed at the top
     of the file
     """
-    file_name = '../data/test/test1.csv'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/test1.csv'
+    else:
+        file_name = r'..\data\test\test1.csv'
     headers = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
     df = read_csv_columns_by_headers(file_name, headers, dat)
@@ -215,10 +260,14 @@ def test_read_csv_by_headers_below_start():
     it properly reads in a csv file with the headers placed below the top
     of the file
     """
-    file_name = '../data/test/test1.csv'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/test2.csv'
+    else:
+        file_name = r'..\data\test\test2.csv'
     headers = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
-    df = read_csv_columns_by_headers(file_name, headers, dat)
+    df = read_csv_columns_by_headers(file_name, headers, dat, skip=2)
 
     new_id = np.array([1, 2, 3, 4], dtype=int)
     inventory = np.array(['shoes', 't-shirt', 'coffee', 'books'], dtype=str)
@@ -243,7 +292,11 @@ def test_read_csv_by_index():
     it properly reads in a csv file that has no headers and gives each
     header a name
     """
-    file_name = '../data/test/test3.csv'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/test3.csv'
+    else:
+        file_name = r'..\data\test\test3.csv'
     headers = [0, 1, 2, 3]
     names = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
@@ -273,7 +326,11 @@ def test_read_csv_by_index_below_start():
     header a name.  This test uses a .csv file that has metadata on
     the first two lines before the beginning of the columnar data
     """
-    file_name = '../data/test/test4.csv'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/test4.csv'
+    else:
+        file_name = r'..\data\test\test4.csv'
     headers = [0, 1, 2, 3]
     names = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
@@ -303,7 +360,11 @@ def test_read_text_by_header():
     ensure it properly reads in a space delimited text file with
     a header in the top row
     """
-    file_name = '../data/test/textcol1.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/textcol1.txt'
+    else:
+        file_name = r'..\data\test\textcol1.txt'
     headers = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
     df = read_text_columns_by_headers(file_name, headers, dat)
@@ -331,7 +392,11 @@ def test_read_text_by_header_below_start():
     ensure it properly reads in a space delimited text file with
     a header not in the top row
     """
-    file_name = '../data/test/textcol2.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/textcol2.txt'
+    else:
+        file_name = r'..\data\test\textcol2.txt'
     headers = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
     df = read_text_columns_by_headers(file_name, headers, dat, skip=2)
@@ -359,7 +424,11 @@ def test_read_text_by_index():
     ensure it properly reads in a space delimited text file with
     a header in the top row
     """
-    file_name = '../data/test/textcol3.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/textcol3.txt'
+    else:
+        file_name = r'..\data\test\textcol3.txt'
     headers = [0, 1, 2, 3]
     names = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
@@ -388,7 +457,11 @@ def test_read_text_by_index_below_start():
     ensure it properly reads in a space delimited text file with
     a header not in the top row
     """
-    file_name = '../data/test/textcol4.txt'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/textcol4.txt'
+    else:
+        file_name = r'..\data\test\textcol4.txt'
     headers = [0, 1, 2, 3]
     names = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
@@ -418,7 +491,11 @@ def test_read_excel_by_header():
     ensure it properly reads in a space delimited text file with
     a header in the top row
     """
-    file_name = '../data/test/excel_test1.xls'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/excel_test1.xls'
+    else:
+        file_name = r'../data/test/excel_test1.xls'
     headers = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
 
@@ -463,7 +540,11 @@ def test_read_excel_by_header_below_start():
     ensure it properly reads in a space delimited text file with
     a header not in the top row
     """
-    file_name = '../data/test/excel_test2.xls'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/excel_test2.xls'
+    else:
+        file_name = r'../data/test/excel_test2.xls'
     headers = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
 
@@ -492,7 +573,11 @@ def test_read_excel_by_index():
     ensure it properly reads in a space delimited text file with
     a header not in the top row
     """
-    file_name = '../data/test/excel_test3.xls'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/excel_test3.xls'
+    else:
+        file_name = r'../data/test/excel_test3.xls'
     col_index = [0, 1, 2, 3]
     names = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]
@@ -540,7 +625,11 @@ def test_read_excel_by_index_below_start():
     ensure it properly reads in a space delimited text file with
     a header not in the top row
     """
-    file_name = '../data/test/excel_test4.xls'
+    plat = platform.system()
+    if plat == 'Darwin':
+        file_name = '../data/test/excel_test4.xls'
+    else:
+        file_name = r'../data/test/excel_test4.xls'
     headers = [0, 1, 2, 3]
     names = ['ID', 'Inventory', 'Weight_per', 'Number']
     dat = [np.int64, str, np.float64, np.int64]

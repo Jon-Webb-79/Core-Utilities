@@ -2,6 +2,7 @@
 import numpy as np
 import sys
 import os
+import platform
 sys.path.insert(0, os.path.abspath('../src'))
 from plotting import two_d_line_matplot, two_d_scatter_matplot
 # ============================================================================
@@ -35,7 +36,11 @@ def test_two_d_line_plot():
     line_style = ['-', '-', '--']
     labels = ['linear', 'squared', 'cubed']
     weight = [1, 2, 3]
-    plt_name = '../data/test/test.png'
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/test.png'
+    else:
+        plt_name = r'..\data\test\test.png'
     two_d_line_matplot(x_list, y_list, colors, line_style, weight, 'x-data',
                        'y-data', labels, 'upper left', save=True,
                        plot_name=plt_name)
@@ -56,7 +61,11 @@ def test_two_d_scatter_matplot():
     marker_style = ['^', 'o', 'd']
     labels = ['linear', 'squared', 'cubed']
     weight = [1, 2, 3]
-    plt_name = '../data/test/test.eps'
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/test.eps'
+    else:
+        plt_name = r'..\data\test\test.eps'
     two_d_scatter_matplot(x_list, y_list, colors, marker_style, 'x-data',
                           'y-data', labels, 'upper left', save=True,
                           plot_name=plt_name)
