@@ -57,7 +57,7 @@ def text_date_plot(dates: List[List[str]], y_data: List[List[float]],
                 defaulted to ``default``
     :param title: The title of the plot to incorporate into the header.  Defaulted to NULL
     :param title_font_size: The font size for the tile, defaulted to 24
-    :return:
+    :return None:
 
     This function utilizes the matplotlib
     `subplots <https://matplotlib.org/3.3.3/api/_as_gen/matplotlib.pyplot.subplots.html>`_ functionality
@@ -596,4 +596,3 @@ def one_d_histogram_plot(data: List[List[float]], labels: List[List[str]],
 # ============================================================================
 # ============================================================================
 # eof
-# TODO Add date plot

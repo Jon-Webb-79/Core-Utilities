@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 from typing import List
+import sqlite3
 # ============================================================================
 # ============================================================================
 # Date:    December 10, 2020
@@ -1089,5 +1090,126 @@ def read_excel_columns_by_index(file_name: str, tab: str, col_index: List[int],
     return df
 # ============================================================================
 # ============================================================================
-# TODO Add SQLite reader
+
+
+class ManageSQLiteDB:
+    """
+
+    :param database: The database name to include its path-link
+
+    This class allows users to interface with SQLite databases, open the
+    database, close the database and input queries.
+    """
+    def __init__(self, database: str):
+        self.database = database
+        if not os.path.isfile(self.database):
+            sys.exit('{}{}{}'.format('FATAL ERROR: ',
+                                     self.database, ' does not exist'))
+        self.conn = sqlite3.connect(self.database)
+        self.cur = self.conn.cursor()
+# ----------------------------------------------------------------------------
+
+    def close_database_connection(self) -> None:
+        """
+        This function closes a database connection
+        """
+        self.conn.close()
+        return
+# ----------------------------------------------------------------------------
+
+    def query_db(self, query: str) -> pd.DataFrame:
+        """
+
+        :param query: A SQLite query statement
+        :return df: A dataframe containing the results of the
+                    SQLite query
+
+        This function will read a database in any way the user queries
+        it.  Assume we have a database titled Maintenance.db which contains
+        several tables, one of which is titled gas.  The gas table contains
+        a history of all times a vehicle has been refueled to include how
+        many gallons, the date, and the expense.
+
+        .. code-block:: python
+
+           > file = '../data/test/Maintenance.db'
+           > db = ManageSQLiteDB(file)
+           > query = "Select Date, Cost, Gallons FROM gas;"
+           > df = db.query_db(query)
+           > db.close_database_connection()
+           > print(df)
+
+        .. list-table:: dataframe
+           :widths: 6 6 6
+           :header-rows: 1
+
+           * - Date
+             - Cost
+             - Gallons
+           * - 2020-02-04
+             - 27.88
+             - 9.961
+           * - 2020-02-06
+             - 23.75
+             - 9.619
+           * - 2020-02-13
+             - 28.30
+             - 10.256
+
+        """
+        df = pd.read_sql_query(query, self.conn)
+        return df
+# ============================================================================
+# ============================================================================
+
+
+def simple_sqlite_query(database: str, query: str) -> pd.DataFrame:
+    """
+
+    :param database: The SQLite database name with path-link
+    :param query: The SQLite query
+    :return df: A dataframe containing the query results
+
+    This function allows a user to conduct a quick SQLite database query and
+    handles class instantiation and database closure for the user.  This function
+    will only query the database once and will close the database after
+    the function exit.  If the user wishes to make multiple queries before
+    closing the database, then they should directly interface with the
+    ManageSQLite class.
+
+    Assume we have a database titled Maintenance.db which contains
+    several tables, one of which is titled gas.  The gas table contains
+    a history of all times a vehicle has been refueled to include how
+    many gallons, the date, and the expense.
+
+    .. code-block:: python
+
+        > file = '../data/test/Maintenance.db'
+        > query = "Select Date, Cost, Gallons FROM gas;"
+        > df = db.simple_sqlite_query(file, query)
+        > print(df)
+
+    .. list-table:: dataframe
+        :widths: 6 6 6
+        :header-rows: 1
+
+        * - Date
+          - Cost
+          - Gallons
+        * - 2020-02-04
+          - 27.88
+          - 9.961
+        * - 2020-02-06
+          - 23.75
+          - 9.619
+        * - 2020-02-13
+          - 28.30
+          - 10.256
+    """
+    db = ManageSQLiteDB(database)
+    df = db.query_db(query)
+    db.close_database_connection()
+    return df
+# ============================================================================
+# ============================================================================
 # eof

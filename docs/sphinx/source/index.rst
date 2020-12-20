@@ -13,6 +13,7 @@ Welcome to Core Utilities's documentation!
    Introduction
    FileUtilities
    ReadTextFileKeywords
+   ReadSQLite
    read_columns
    Plotting
 

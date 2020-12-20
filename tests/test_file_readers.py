@@ -10,7 +10,8 @@ sys.path.insert(0, os.path.abspath('../src'))
 from read_files import ReadTextFileKeywords, read_csv_columns_by_headers
 from read_files import read_csv_columns_by_index, read_text_columns_by_headers
 from read_files import read_text_columns_by_index, read_excel_columns_by_headers
-from read_files import read_excel_columns_by_index
+from read_files import read_excel_columns_by_index, ManageSQLiteDB
+from read_files import simple_sqlite_query
 # ==============================================================================
 # ==============================================================================
 # Date:    December 11, 2020
@@ -650,6 +651,57 @@ def test_read_excel_by_index_below_start():
         assert isinstance(df['Weight_per'][i], np.float64)
         assert number[i] == df['Number'][i]
         assert isinstance(df['Number'][i], np.int64)
+# ==============================================================================
+# ==============================================================================
+# Test ManageDB and related functions
+
+
+def test_no_db_exists():
+    """
+
+    This function tests to ensure that ReadSQLiteDB correctly determines
+    if a database does not exist
+    """
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/not_db.db'
+    else:
+        file = r'..\data\test\not_db.db'
+    with pytest.raises(SystemExit):
+        ManageSQLiteDB(file)
+# ------------------------------------------------------------------------------
+
+
+def test_read_database_from_class():
+    """
+
+    This function tests to ensure that ReadSQLiteDB correctly reads a
+    database table
+    """
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/Maintenance.db'
+    else:
+        file = r'..\data\test\Maintenance.db'
+    db = ManageSQLiteDB(file)
+    query = "Select Date, Cost, Gallons FROM gas;"
+    df = db.query_db(query)
+    db.close_database_connection()
+    assert df['Date'][0] == '2020-02-04'
+    assert isclose(df['Cost'][0], 27.88, rel_tol=1.0e-3)
+# ------------------------------------------------------------------------------
+
+
+def test_simple_sqlite_query():
+    plat = platform.system()
+    if plat == 'Darwin':
+        file = '../data/test/Maintenance.db'
+    else:
+        file = r'..\data\test\Maintenance.db'
+    query = "Select Date, Cost, Gallons FROM gas;"
+    df = simple_sqlite_query(file, query)
+    assert df['Date'][0] == '2020-02-04'
+    assert isclose(df['Cost'][0], 27.88, rel_tol=1.0e-3)
 # ==============================================================================
 # ==============================================================================
 # eof
