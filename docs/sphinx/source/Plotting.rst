@@ -7,3 +7,5 @@ plots should be generated manually.
 .. autofunction:: plotting.two_d_line_matplot
 
 .. autofunction:: plotting.two_d_scatter_matplot
+
+.. autofunction:: plotting.two_d_scatter_line_matplot

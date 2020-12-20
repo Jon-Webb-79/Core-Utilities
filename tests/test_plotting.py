@@ -5,6 +5,7 @@ import os
 import platform
 sys.path.insert(0, os.path.abspath('../src'))
 from plotting import two_d_line_matplot, two_d_scatter_matplot
+from plotting import two_d_scatter_line_matplot
 # ============================================================================
 # ============================================================================
 # Date:    December 18, 2020
@@ -60,7 +61,6 @@ def test_two_d_scatter_matplot():
     colors = ['red', 'blue', 'black']
     marker_style = ['^', 'o', 'd']
     labels = ['linear', 'squared', 'cubed']
-    weight = [1, 2, 3]
     plat = platform.system()
     if plat == 'Darwin':
         plt_name = '../data/test/test.eps'
@@ -69,6 +69,32 @@ def test_two_d_scatter_matplot():
     two_d_scatter_matplot(x_list, y_list, colors, marker_style, 'x-data',
                           'y-data', labels, 'upper left', save=True,
                           plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
+# ----------------------------------------------------------------------------
+
+
+def test_two_d_scatter_line_matplot():
+    x_dat = np.linspace(0, 10, 15)
+    y1_dat = x_dat
+    y2_dat = x_dat ** 2.0
+    y3_dat = x_dat ** 3.0
+    x_list = [x_dat, x_dat, x_dat]
+    y_list = [y1_dat, y2_dat, y3_dat]
+    colors = ['red', 'blue', 'black']
+    line_style = ['-', '-', '--']
+    labels = ['linear', 'squared', 'cubed']
+    weight = [1, 2, 3]
+    marker_style = ['^', 'o', 'd']
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/line_mark.eps'
+    else:
+        plt_name = r'..\data\test\line_mark.eps'
+    two_d_scatter_line_matplot(x_list, y_list, colors, marker_style,
+                               line_style, weight, 'x-axis', 'y-axis',
+                               labels, 'upper left', save=True, plot_name=plt_name)
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
