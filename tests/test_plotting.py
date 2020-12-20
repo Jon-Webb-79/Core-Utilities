@@ -1,12 +1,14 @@
 # Import necessary packages here
 import numpy as np
+import pandas as pd
 import sys
 import os
 import platform
-import random
+import yfinance as yf
 sys.path.insert(0, os.path.abspath('../src'))
 from plotting import two_d_line_matplot, two_d_scatter_matplot
 from plotting import two_d_scatter_line_matplot, one_d_histogram_plot
+from plotting import text_date_plot
 # ============================================================================
 # ============================================================================
 # Date:    December 18, 2020
@@ -20,6 +22,30 @@ __version__ = "1.0"
 # ============================================================================
 # ============================================================================
 # Test plotting routines in plotting.py
+
+
+def test_date_plot():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/date.eps'
+    else:
+        plt_name = r'..\data\test\date.eps'
+    # Use stock data for example
+    tickers = ['AAPL', 'WMT']
+    data = yf.download(tickers, '2015-1-1')['Adj Close']
+    # transform Timestamps to string
+    dates = list(data.index.strftime('%Y-%m-%d'))
+    date_list = [dates, dates]
+    y_list = [list(data[tickers[0]]), list(data[tickers[1]])]
+    colors = ['red', 'green']
+    line_style = ['-', '-']
+    weight = [1.0, 1.0]
+    text_date_plot(date_list, y_list, colors, line_style, weight, 'Date',
+                   '$', tickers, 'upper left', save=True, plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
+# ----------------------------------------------------------------------------
 
 
 def test_two_d_line_plot():

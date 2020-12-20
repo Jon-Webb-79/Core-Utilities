@@ -11,3 +11,5 @@ plots should be generated manually.
 .. autofunction:: plotting.two_d_scatter_line_matplot
 
 .. autofunction:: plotting.one_d_histogram_plot
+
+.. autofunction:: plotting.text_date_plot

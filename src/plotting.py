@@ -1,6 +1,8 @@
 # Import necessary packages here
 from typing import List
 import warnings
+from datetime import datetime
+import matplotlib.dates as mdates
 from matplotlib import rc, pyplot as plt
 # ============================================================================
 # ============================================================================
@@ -16,13 +18,135 @@ __version__ = "1.0"
 # ============================================================================
 
 
+def text_date_plot(dates: List[List[str]], y_data: List[List[float]],
+                   line_colors: List[str], line_style: List[str],
+                   line_weight: List[str], x_label: str, y_label: str,
+                   dat_labels: List[str], label_pos: str, y_scale: str = 'LIN',
+                   plot_name: str = 'NULL', save: bool = False,
+                   label_font_size: int = 18, tick_font_size: int = 18,
+                   style_name: str = 'default', title: str = 'NULL',
+                   title_font_size: int = 24) -> None:
+    """
+
+    :param dates: A list of lists, where each inner list contains a list of dates
+                  as a text string in the format YYYY-MM-DD or YYYY/MM/DD
+    :param y_data: A list of lists containing y-axis data corresponding to the
+                   list of lists in `dates`
+    :param line_colors: A list of line colors ,one for each curve.
+                    Acceptable line color indicators can be found in documentation
+                    for
+                    matplotlib colors <https://matplotlib.org/3.1.0/gallery/color/named_colors.html>`_.
+    :param line_style: A list of line styles, one for each curve.  Acceptable line
+                    styles can be found in documentation for
+                    `matplotlib style <https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html>`_.
+    :param line_weight: A list of line weights, one for each curve.
+    :param x_label: The x-axis label
+    :param y_label: The y-axis label
+    :param dat_labels: A list of labels, one for each curve
+    :param label_pos: The position of the label in the plot, examples might be
+                      ``upper left``, ``lower right``.
+    :param y_scale: 'LOG' or 'LIN' for logarithmic or linear scale
+    :param plot_name: The plot name and path-link, if the user wants to save the
+                      plot.  If not, the variable is defaulted to ``NULL``
+    :param save: True or False, defaulted to False
+    :param label_font_size: The font size for plot labels, defaulted to 18
+    :param tick_font_size: The tick font size, defaulted to 18
+    :param style_name: The plot style to be used.  Acceptable styles can be
+                found at
+                `matplotlib styles <https://matplotlib.org/3.2.1/gallery/style_sheets/style_sheets_reference.html>`_.
+                defaulted to ``default``
+    :param title: The title of the plot to incorporate into the header.  Defaulted to NULL
+    :param title_font_size: The font size for the tile, defaulted to 24
+    :return:
+
+    This function utilizes the matplotlib
+    `subplots <https://matplotlib.org/3.3.3/api/_as_gen/matplotlib.pyplot.subplots.html>`_ functionality
+    to produce single plots of one or multiple data sets as a function of date. This function assumes that the
+    date string is in the format of a text string and not a Timestamp or datetime.  This function also autonomusly
+    determines the appropriate date display format.  If you desire plots as a
+    function of time you should use the ``text_time_plot`` function.  The function can be used in the
+    following manner;
+
+    .. code-block:: python
+
+       > # Use stock data for example
+       > tickers = ['AAPL', 'WMT']
+       > data = yf.download(tickers, '2015-1-1')['Adj Close']
+       > # transform Timestamps to string
+       > dates = list(data.index.strftime('%Y-%m-%d'))
+       > date_list = [dates, dates]
+       > y_list = [list(data[tickers[0]]), list(data[tickers[1]])]
+       > colors = ['red', 'green']
+       > line_style = ['-', '-']
+       > weight = [1.0, 1.0]
+       > text_date_plot(date_list, y_list, colors, line_style, weight, 'Date',
+                        '$', tickers, 'upper left')
+
+    .. image:: date.eps
+       :align: center
+    """
+    # Adjust format for YYYY/MM/DD to YYYY-MM-DD
+    outer_list = []
+    for i in range(len(dates)):
+        inner_list = []
+        for j in range(len(dates[i])):
+            year = dates[i][j][0:4]
+            month = dates[i][j][5:7]
+            day = dates[i][j][8:10]
+            date_string = year + '-' + month + '-' + day
+            inner_list.append(datetime.strptime(date_string, '%Y-%m-%d'))
+        outer_list.append(inner_list)
+
+    # Determine time difference between min and max point
+    days = 0
+    for i in outer_list:
+        delta = (max(i) - min(i)).days
+        if delta > days:
+            days = delta
+
+    # Start plot
+    fig, td_plot = plt.subplots()
+    plt.rcParams.update({'figure.autolayout': True})
+    plt.style.use(style_name)
+    rc('xtick', labelsize=tick_font_size)
+    rc('ytick', labelsize=tick_font_size)
+    if y_scale.upper() == 'LOG':
+        td_plot.set_yscale('log')
+    if days <= 15:
+        myfmt = mdates.DateFormatter('%d')
+        td_plot.xaxis.set_major_locator(mdates.DayLocator())
+    elif days <= 180:
+        myfmt = mdates.DateFormatter('%b-%y')
+        td_plot.xaxis.set_major_locator(mdates.MonthLocator())
+    else:
+        myfmt = mdates.DateFormatter('%b-%y')
+        td_plot.xaxis.set_major_locator(plt.MaxNLocator(4))
+
+    td_plot.set_xlabel(x_label, fontsize=label_font_size)
+    td_plot.set_ylabel(y_label, fontsize=label_font_size)
+    if title != 'NULL':
+        td_plot.set_title(title, fontsize=title_font_size)
+    td_plot.xaxis.set_major_formatter(myfmt)
+    for i in range(len(outer_list)):
+        td_plot.plot(outer_list[i], y_data[i], color=line_colors[i],
+                     label=dat_labels[i], linewidth=line_weight[i],
+                     linestyle=line_style[i])
+    plt.legend(loc=label_pos)
+    if not save:
+        plt.show()
+    else:
+        plt.savefig(plot_name)
+# ----------------------------------------------------------------------------
+
+
 def two_d_line_matplot(x_data: List[List[float]], y_data: List[List[float]],
                        line_colors: List[str], line_style: List[str],
                        line_weight: List[str], x_label: str, y_label: str,
                        dat_labels: List[str], label_pos: str, x_scale: str = 'LIN',
                        y_scale: str = 'LIN', plot_name: str = 'NULL',
                        save: bool = False, label_font_size: int = 18,
-                       tick_font_size: int = 18, style_name: str = 'default') -> None:
+                       tick_font_size: int = 18, style_name: str = 'default',
+                       title: str = 'NULL', title_font_size: int = 24) -> None:
     """
 
     :param x_data: A list of lists, where the inner lists contain data points
@@ -53,6 +177,8 @@ def two_d_line_matplot(x_data: List[List[float]], y_data: List[List[float]],
                 found at
                 `matplotlib styles <https://matplotlib.org/3.2.1/gallery/style_sheets/style_sheets_reference.html>`_.
                 defaulted to ``default``
+    :param title: The title of the plot to incorporate into the header.  Defaulted to NULL
+    :param title_font_size: The font size for the tile, defaulted to 24
     :return None:
 
     This function utilizes the matplotlib
@@ -108,6 +234,8 @@ def two_d_line_matplot(x_data: List[List[float]], y_data: List[List[float]],
     rc('ytick', labelsize=tick_font_size)
     td_plot.set_xlabel(x_label, fontsize=label_font_size)
     td_plot.set_ylabel(y_label, fontsize=label_font_size)
+    if title != 'NULL':
+        td_plot.set_title(title, fontsize=title_font_size)
     if x_scale.upper() == 'LOG':
         td_plot.set_xscale('log')
     if y_scale.upper() == 'LOG':
@@ -132,7 +260,8 @@ def two_d_scatter_matplot(x_data: List[List[float]], y_data: List[List[float]],
                           label_pos: str, x_scale: str = 'LIN',
                           y_scale: str = 'LIN', plot_name: str = 'NULL',
                           save: bool = False, label_font_size: int = 18,
-                          tick_font_size: int = 18, style_name: str = 'default') -> None:
+                          tick_font_size: int = 18, style_name: str = 'default',
+                          title: str = 'NULL', title_font_size: int = 24) -> None:
     """
 
     :param x_data: A list of lists, where the inner lists contain data points
@@ -160,6 +289,8 @@ def two_d_scatter_matplot(x_data: List[List[float]], y_data: List[List[float]],
                        found at
                 `matplotlib styles <https://matplotlib.org/3.2.1/gallery/style_sheets/style_sheets_reference.html>`_.
                        defaulted to ``default``
+    :param title: The title of the plot to incorporate into the header.  Defaulted to NULL
+    :param title_font_size: The font size for the tile, defaulted to 24
     :return None:
 
     This function utilizes the matplotlib
@@ -211,6 +342,8 @@ def two_d_scatter_matplot(x_data: List[List[float]], y_data: List[List[float]],
     rc('ytick', labelsize=tick_font_size)
     td_plot.set_xlabel(x_label, fontsize=label_font_size)
     td_plot.set_ylabel(y_label, fontsize=label_font_size)
+    if title != 'NULL':
+        td_plot.set_title(title, fontsize=title_font_size)
     if x_scale.upper() == 'LOG':
         td_plot.set_xscale('log')
     if y_scale.upper() == 'LOG':
@@ -236,7 +369,8 @@ def two_d_scatter_line_matplot(x_data: List[List[float]], y_data: List[List[floa
                                label_pos: str, x_scale: str = 'LIN',
                                y_scale: str = 'LIN', plot_name: str = 'NULL',
                                save: bool = False, label_font_size: int = 18,
-                               tick_font_size: int = 18, style_name: str = 'default') -> None:
+                               tick_font_size: int = 18, style_name: str = 'default',
+                               title: str = 'NULL', title_font_size: int = 24) -> None:
     """
 
     :param x_data: A list of lists, where the inner lists contain data points
@@ -268,6 +402,8 @@ def two_d_scatter_line_matplot(x_data: List[List[float]], y_data: List[List[floa
                 found at
                 `matplotlib styles <https://matplotlib.org/3.2.1/gallery/style_sheets/style_sheets_reference.html>`_.
                 defaulted to ``default``
+    :param title: The title of the plot to incorporate into the header.  Defaulted to NULL
+    :param title_font_size: The font size for the tile, defaulted to 24
     :return None:
 
     This function utilizes the matplotlib
@@ -318,6 +454,8 @@ def two_d_scatter_line_matplot(x_data: List[List[float]], y_data: List[List[floa
     fig, td_plot = plt.subplots()
     rc('xtick', labelsize=tick_font_size)
     rc('ytick', labelsize=tick_font_size)
+    if title != 'NULL':
+        td_plot.set_title(title, fontsize=title_font_size)
     td_plot.set_xlabel(x_label, fontsize=label_font_size)
     td_plot.set_ylabel(y_label, fontsize=label_font_size)
     if x_scale.upper() == 'LOG':
@@ -343,7 +481,8 @@ def one_d_histogram_plot(data: List[List[float]], labels: List[List[str]],
                          label_pos: str, num_bins: int = 50, tick_font_size: int = 18,
                          label_font_size: str = 18, style_name: str = 'default',
                          save: bool = False, plot_name: str = 'NULL',
-                         hist_type: str = 'bar', dens: bool = False) -> None:
+                         hist_type: str = 'bar', dens: bool = False,
+                         title: str = 'NULL', title_font_size: int = 24) -> None:
     """
 
     :param data: A list of lists containing data for one or multiple
@@ -376,12 +515,13 @@ def one_d_histogram_plot(data: List[List[float]], labels: List[List[str]],
     :param dens: If True, the first element of the return tuple will be the counts
                  normalized to form a probability density, i.e., the area (or integral)
                  under the histogram will sum to 1
+    :param title: The title of the plot to incorporate into the header.  Defaulted to NULL
+    :param title_font_size: The font size for the tile, defaulted to 24
     :return:
 
     This function utilizes the matplotlib
     `subplots <https://matplotlib.org/3.3.3/api/_as_gen/matplotlib.pyplot.subplots.html>`_ functionality
-    to produce single plots of one or multiple data sets overlaid with line plots.  This function will only produce
-    line plots and not scatter plots or a combination of both.  The function can be used in the following manner;
+    to produce single phistogram plots or multiple overlaid plots.  The function can be used in the following manner;
 
     .. code-block:: python
 
@@ -442,6 +582,8 @@ def one_d_histogram_plot(data: List[List[float]], labels: List[List[str]],
     rc('ytick', labelsize=tick_font_size)
     plt.xlabel(x_label, fontsize=label_font_size)
     plt.ylabel(y_label, fontsize=label_font_size)
+    if title != 'NULL':
+        plt.title(title, fontsize=title_font_size)
     for i in range(len(labels)):
         plt.hist(data[i], bins=num_bins, color=colors[i], edgecolor=edge_colors[i],
                  alpha=shading[i], label=labels[i], histtype=hist_type, density=dens)
