@@ -1,4 +1,6 @@
-# Core Utilities
+**************
+Core Utilities
+**************
 
 The Core Utilities program contains classes and functions that perform basic
 operations necessary for most python programs such as reading and writing to files,
@@ -8,16 +10,19 @@ This software package will continue to grow over time and will combine already
 existing python functionality into one framework and in several occasions
 will add to the basic capability.
 
-## Contributing
+Contributing
+############
 
 Pull requests are welcome.  For major changes, please open an issue first to discuss
 what you would like to change.  Please makre sure to include and update tests
 as well as relevant doc-string and sphinx updates.
 
-## License
+License
+#######
 The License is included in the **core_utilities** package
 
-## Installation
+Installation
+############
 In order to download this repository from github follow these instructions
 
 1. Ensure you have .git installed on your computer
