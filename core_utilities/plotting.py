@@ -708,10 +708,6 @@ class MatPlotDataFrame:
         .. image:: mat_scatter_test1.eps
            :align: center
         """
-        # TODO Create a new function to plot multiple columns
-        # TODO Repeat first two for line plots
-        # TODO Create histogram version of plots
-        # TODO Repeat for Bokeh plots
         df_list = [self.df[self.df[parsing_header] == col_val] for 
                    col_val in column_values]
 
@@ -765,7 +761,145 @@ class MatPlotDataFrame:
             plt.savefig(plot_name)
 # --------------------------------------------------------------------------------
 
-#    def scatter_plot_columns()
+    def scatter_plot_columns(self, x_headers: List[str], y_headers: List[str],
+                             labels: List[str], style_name: str='default', 
+                             marker_colors: List[str]=['None'], 
+                             marker_style: List[str]=['None'], fill_alpha: np.float32=0.7, 
+                             edge_color: str='black', x_label: str='', y_label: str='', 
+                             title: str='', label_pos: str='upper right', x_scale: str='LIN', 
+                             y_scale: str='LIN', plot_name: str='NULL', save: bool=False, 
+                             label_font_size: int=18, tick_font_size: int=18, 
+                             title_font_size: int=24, marker_size: int=35, 
+                             marker_edge_width: np.float32=0.8, grid: bool=False, 
+                             grid_style='-', grid_color='grey'):
+        """
+
+        :param x_headers: The title of the dataframe columns containing the x-axis
+                          data sets 
+        :param y_headers: The title of the dataframe columns containing the y-axis
+                          data sets
+        :param labels: A list of the label names for each data set
+        :param style_name: The name of the matplotlib style that will be used to
+                           format the plot.  Defaulted to 'default'.  Possible
+                           styles can be found at :href
+                           `styles<https://matplotlib.org/stable/api/style_api.html>`
+        :param marker_colors: A list of marker colors, where each marker color 
+                              corresponds to each data set.  This parameter has a 
+                              default color lists that can accomodate 18 different
+                              data sets.  The user can override the default colors
+                              with a list of their own.  Potential colors can be
+                              found at :href `colors<https://matplotlib.org/stable/gallery/color/named_colors.html>`
+        :param marker_style: A list of marker styles, where each marker style corresponds
+                             to a data set.  This parameter has a default list of 18 circle
+                             marker styles that the user can override.  Marker styles
+                             can be found at :href `marker style<https://matplotlib.org/stable/api/markers_api.html>`
+        :param fill_apha: The density of the marker fill.  Defaulted to 0.7
+        :param edge_color: The color of the line surrounding the marker
+        :param x_label: The x axis label,defaulted to ' '
+        :param y_label: The y axis label, defaulted to ' '
+        :param title: The plot title, defaulted to ' '
+        :param label_pos: The position of the legend in the plot.  Defaulted to 'upper right'
+        :param x_scale: 'LOG' or 'LIN', defaulted to 'LIN'
+        :param y_scale: 'LOG' or 'LIN', defaulted to 'LIN'
+        :param plot_name: The name of the file containing the plot if the plot is to
+                          be saved.  Defaulted to 'NULL'
+        :param save: True if the plot is to be saved, False if the plot is to be
+                     shown and not saved.  Defaulted to False
+        :param label_font_size: The label font size, defaulted to 18
+        :param tick_font_size: The tick font size, defaulted to 18
+        :param title_font_size: The title font size, defaulted to 24
+        :param marker_size: The size of the marker, defaulted to 35
+        :param marker_edge_width: The thickness of the line outlining 
+                                  each marker.  Defaulted to 0.8
+        :param grid: True if a grid overlaid on the plot is desired, False if not
+        :param grid_color: Defaulted to 'grey'
+        :grid_style: Defaulted to '-'
+
+        This method will parse a dataframe column based on a user specified 
+        value or list of values, and plot the data in a user specified
+        x and y axis column based on filter data.  As an example, consider
+        a dataframe with the following columnar data structure.
+
+        .. code-block:: python
+
+           > length = 20
+           > x = np.linspace(0, length, num=length)
+           > linear = x
+           > squared = x ** 2.0
+           > lin = np.repeat('linear', length)
+           > sq = np.repeat('squared', length)
+           > # Combine arrays into one
+           > x = np.hstack((x, x))
+           > y = np.hstack((linear, squared))
+           > power = np.hstack((lin, sq))
+           > # Create dataframe
+           > dictionary = {'x': x, 'y': y, 'power': power}
+           > df = pd.DataFrame(dictionary)
+           > # Plot data
+           > obj = MatPlotDataFrame(df)
+           > parsing_header = 'power'
+           > column_values = ['linear', 'squared']
+           obj.scatter_plot_filter_column('x', 'y', parsing_header, 
+                                          column_values, 
+                                          marker_colors=['red', 'green'], 
+                                          marker_style=['o', '^'], 
+                                          label_pos='upper left')
+
+        .. image:: mat_scatter_test1.eps
+           :align: center
+        """
+        # Error checking
+        if marker_colors[0] == 'None':
+            marker_colors = self.colors
+        if len(x_headers) != len(y_headers):
+            sys.exit('FATAL ERROR: x and y arrays must be the same size')
+        if marker_style[0] == 'None':
+            marker_style = self.styles
+        if len(marker_style) < len(x_headers):
+            msg1 = 'FATAL ERROR: The length of the marker stye list must be as '
+            msg2 =  'large or larger than the size of the column values'
+            sys.exit(msg + ms2)
+        if save and plot_name == 'NULL':
+            warnings.warn('if save is True then plot name cannot be NULL')
+        if y_scale != 'LOG' and y_scale != 'LIN':
+            warnings.warn('y_scale must be set to LOG or LIN')
+        if x_scale != 'LOG' and x_scale != 'LIN':
+            warnings.warn('y_scale must be set to LOG or LIN')
+
+        # begin plot
+        plt.rcParams.update({'figure.autolayout': True})
+        plt.style.use(style_name)
+        fig, td_plot = plt.subplots()
+        rc('xtick', labelsize=tick_font_size)
+        rc('ytick', labelsize=tick_font_size)
+        td_plot.set_xlabel(x_label, fontsize=label_font_size)
+        td_plot.set_ylabel(y_label, fontsize=label_font_size)
+        if title != 'NULL':
+            td_plot.set_title(title, fontsize=title_font_size)
+        if x_scale.upper() == 'LOG':
+            td_plot.set_xscale('log')
+        if y_scale.upper() == 'LOG':
+            td_plot.set_yscale('log')
+  
+        for i in range(len(x_headers)):
+            td_plot.scatter(self.df[x_headers[i]], self.df[y_headers[i]], 
+                            label=labels[i], marker=marker_style[i], 
+                            color=marker_colors[i], alpha=fill_alpha, 
+                            edgecolors=edge_color, s=marker_size, 
+                            linewidth=marker_edge_width)
+
+        plt.legend(loc=label_pos)
+        if grid:
+            plt.grid(color=grid_color, linestyle=grid_style)
+        if not save:
+            plt.show()
+        else:
+            plt.savefig(plot_name)
 # ================================================================================
 # ================================================================================
 # eof
+
+# TODO Create a new function to plot multiple columns
+        # TODO Repeat first two for line plots
+        # TODO Create histogram version of plots
+        # TODO Repeat for Bokeh plots

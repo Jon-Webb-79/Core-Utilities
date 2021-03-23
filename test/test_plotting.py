@@ -163,9 +163,9 @@ def test_histogram_plot():
 def test_matplot_scatter_plot_parse_column():
     plat = platform.system()
     if plat == 'Darwin':
-        plt_name = '../data/test/hist1.eps'
+        plt_name = '../data/test/scatter1.eps'
     else:
-        plt_name = r'..\data\test\hist1.eps'
+        plt_name = r'..\data\test\scatter1.eps'
     length = 20
     x = np.linspace(0, 20, num=20)
     linear = x
@@ -193,6 +193,37 @@ def test_matplot_scatter_plot_parse_column():
                                   fill_alpha=0.7, marker_style=['o', '^'], 
                                   label_pos='upper left', grid=True, save=True,
                                   plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
+# --------------------------------------------------------------------------------
+
+
+def test_matplot_scatter_plot_columns():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/scatter2.eps'
+    else:
+        plt_name = r'..\data\test\scatter2.eps'
+    length = 20
+    x = np.linspace(0, 20, num=20)
+    linear = x
+    squared = x ** 2.0
+
+    # Create dataframe
+    dictionary = {'x': x, 'linear': linear, 'squared': squared}
+    df = pd.DataFrame(dictionary)
+
+    # Plot data
+    obj = MatPlotDataFrame(df)
+    x_headers = ['x', 'x']
+    y_headers = ['linear', 'squared']
+    obj.scatter_plot_columns(x_headers, y_headers, y_headers, 
+                             x_label='x-axis', y_label='y-axis', title='Test', 
+                             style_name='default',marker_colors=['red', 'green'], 
+                             fill_alpha=0.7, marker_style=['o', '^'], 
+                             label_pos='upper left', grid=False, save=True,
+                             plot_name=plt_name)
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
