@@ -617,16 +617,16 @@ class MatPlotDataFrame:
         self.styles = ['o' for i in range(len(self.colors))]
 # --------------------------------------------------------------------------------
 
-    def scatter_plot_filter_column(self, x_header: str, y_header: str, parsing_header: str, 
-                                   column_values: List[str], style_name: str='default', 
-                                   marker_colors: List[str]=['None'], marker_style: List[str]=['None'], 
-                                   fill_alpha: np.float32=0.7, edge_color: str='black', x_label: str='', 
-                                   y_label: str='', title: str='', label_pos: str='upper right', 
-                                   x_scale: str='LIN', y_scale: str='LIN', plot_name: str='NULL', 
-                                   save: bool=False, label_font_size: int=18, 
-                                   tick_font_size: int=18, title_font_size: int=24, 
-                                   marker_size: int=35, marker_edge_width: np.float32=0.8, 
-                                   grid: bool=False, grid_style='-', grid_color='grey') -> None:
+    def scatter_plot_parse_column(self, x_header: str, y_header: str, parsing_header: str, 
+                                  column_values: List[str], style_name: str='default', 
+                                  marker_colors: List[str]=['None'], marker_style: List[str]=['None'], 
+                                  fill_alpha: np.float32=0.7, edge_color: str='black', x_label: str='', 
+                                  y_label: str='', title: str='', label_pos: str='upper right', 
+                                  x_scale: str='LIN', y_scale: str='LIN', plot_name: str='NULL', 
+                                  save: bool=False, label_font_size: int=18, 
+                                  tick_font_size: int=18, title_font_size: int=24, 
+                                  marker_size: int=35, marker_edge_width: np.float32=0.8, 
+                                  grid: bool=False, grid_style='-', grid_color='grey') -> None:
         """
 
         :param x_header: The title of the dataframe column containing the x-axis
@@ -763,6 +763,9 @@ class MatPlotDataFrame:
             plt.show()
         else:
             plt.savefig(plot_name)
+# --------------------------------------------------------------------------------
+
+#    def scatter_plot_columns()
 # ================================================================================
 # ================================================================================
 # eof

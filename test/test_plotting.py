@@ -160,7 +160,12 @@ def test_histogram_plot():
 # Test MatPlotDataFrame
 
 
-def test_matplot_scatter_plot():
+def test_matplot_scatter_plot_parse_column():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/hist1.eps'
+    else:
+        plt_name = r'..\data\test\hist1.eps'
     length = 20
     x = np.linspace(0, 20, num=20)
     linear = x
@@ -182,12 +187,15 @@ def test_matplot_scatter_plot():
 
     parsing_header = 'power'
     column_values = ['linear', 'squared']
-
-    obj.scatter_plot_filter_column('x', 'y', parsing_header, column_values, 
-                                   x_label='x-axis', y_label='y-axis', title='Test', 
-                                   style_name='default',marker_colors=['red', 'green'], 
-                                   fill_alpha=0.7, marker_style=['o', '^'], 
-                                   label_pos='upper left', grid=True)
+    obj.scatter_plot_parse_column('x', 'y', parsing_header, column_values, 
+                                  x_label='x-axis', y_label='y-axis', title='Test', 
+                                  style_name='default',marker_colors=['red', 'green'], 
+                                  fill_alpha=0.7, marker_style=['o', '^'], 
+                                  label_pos='upper left', grid=True, save=True,
+                                  plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
 # ================================================================================
 # ================================================================================
 # eof
