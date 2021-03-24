@@ -288,19 +288,19 @@ def test_matplot_line_plot_column():
     obj = MatPlotDataFrame(df)
     x_headers = ['x', 'x']
     y_headers = ['linear', 'squared']
-    obj.line_plot_column(x_headers, y_headers, y_headers, 
-                         x_label='x-axis', y_label='y-axis', title='Test', 
-                         style_name='default', line_colors=['red', 'green'], 
-                         fill_alpha=0.7, 
-                         label_pos='upper left', grid=True, save=True,
-                         plot_name=plt_name)
+    obj.line_plot_columns(x_headers, y_headers, y_headers, 
+                          x_label='x-axis', y_label='y-axis', title='Test', 
+                          style_name='default', line_colors=['red', 'green'], 
+                          fill_alpha=0.7, 
+                          label_pos='upper left', grid=True, save=True,
+                          plot_name=plt_name)
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
 # --------------------------------------------------------------------------------
 
 
-def test_timedate_plot_parse_column():
+def test_matplot_timedate_plot_parse_column():
     plat = platform.system()
     if plat == 'Darwin':
         plt_name = '../data/test/time1.eps'
@@ -334,6 +334,38 @@ def test_timedate_plot_parse_column():
                                    fill_alpha=0.7, 
                                    label_pos='upper left', grid=True, save=True,
                                    plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
+# --------------------------------------------------------------------------------
+
+
+def test_matplot_timedate_plot_parse_column():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/line1.eps'
+    else:
+        plt_name = r'..\data\test\line.eps'
+    length = 6 
+    dates = pd.date_range(start=pd.to_datetime('2016-09-24'), 
+                          periods = length, freq='y')
+    x = np.linspace(0, length, num=length)
+    linear = x
+    squared = x ** 2.0
+
+    dictionary = {'dates': dates, 'squared': squared, 
+                  'linear': linear}
+    df = pd.DataFrame(dictionary)
+    # Plot data
+    obj = MatPlotDataFrame(df)
+    time_axis = ['dates', 'dates']
+    y_axis = ['linear', 'squared']
+    obj.timedate_plot_columns(time_axis, y_axis, y_axis,
+                              x_label='x-axis', y_label='y-axis', title='Test', 
+                              style_name='default', line_colors=['red', 'green'], 
+                              fill_alpha=0.7, 
+                              label_pos='upper left', grid=True, save=True,
+                              plot_name=plt_name)
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
