@@ -815,10 +815,8 @@ class MatPlotDataFrame:
         :param grid_color: Defaulted to 'grey'
         :grid_style: Defaulted to '-'
 
-        This method will parse a dataframe column based on a user specified 
-        value or list of values, and plot the data in a user specified
-        x and y axis column based on filter data.  As an example, consider
-        a dataframe with the following columnar data structure.
+        This method will plot used defined dataframe columns for the x and
+        y axis of a 2-d plot as a scatter plot.
 
         .. code-block:: python
 
@@ -926,7 +924,6 @@ class MatPlotDataFrame:
                             found at :href `colors<https://matplotlib.org/stable/gallery/color/named_colors.html>`
         :param line_weight: The weight corresponding to the line thickness, defaulted to 2.0
         :param fill_apha: The density of the marker fill.  Defaulted to 0.7
-        :param edge_color: The color of the line surrounding the marker
         :param x_label: The x axis label,defaulted to ' '
         :param y_label: The y axis label, defaulted to ' '
         :param title: The plot title, defaulted to ' '
@@ -1054,7 +1051,6 @@ class MatPlotDataFrame:
                             found at :href `colors<https://matplotlib.org/stable/gallery/color/named_colors.html>`
         :param line_weight: The weight corresponding to the line thickness, defaulted to 2.0
         :param fill_apha: The density of the marker fill.  Defaulted to 0.7
-        :param edge_color: The color of the line surrounding the marker
         :param x_label: The x axis label,defaulted to ' '
         :param y_label: The y axis label, defaulted to ' '
         :param title: The plot title, defaulted to ' '
@@ -1075,10 +1071,8 @@ class MatPlotDataFrame:
         :param grid_color: Defaulted to 'grey'
         :grid_style: Defaulted to '-'
 
-        This method will parse a dataframe column based on a user specified 
-        value or list of values, and plot the data in a user specified
-        x and y axis column based on filter data.  As an example, consider
-        a dataframe with the following columnar data structure.
+        This method will plot used defined dataframe columns for the x and
+        y axis of a 2-d plot as a line plot.
 
         .. code-block:: python
 
@@ -1145,11 +1139,167 @@ class MatPlotDataFrame:
             plt.show()
         else:
             plt.savefig(plot_name)
+# --------------------------------------------------------------------------------
+
+    def timedate_plot_parse_column(self, x_header: str, y_header: str, parsing_header: str, 
+                                   column_values: List[str], style_name: str='default', 
+                                   line_colors: List[str]=['None'], line_weight: np.float32=2.0, 
+                                   fill_alpha: np.float32=0.7, line_style: str='-', x_label: str='', 
+                                   y_label: str='', title: str='', label_pos: str='upper right', 
+                                   x_scale: str='LIN', y_scale: str='LIN', plot_name: str='NULL', 
+                                   save: bool=False, label_font_size: int=18, 
+                                   tick_font_size: int=18, title_font_size: int=24, 
+                                   marker_size: int=35, marker_edge_width: np.float32=0.8, 
+                                   grid: bool=False, grid_style='-', grid_color='grey'):
+        """
+
+        :param x_header: The title of the dataframe column containing the x-axis
+                         data sets.  It is assumes that the x axis is the datetime
+                         axis for this plot.
+        :param y_header: The title of the dataframe column containing the y-axis
+                         data sets
+        :param parsing_header: The title of the dataframe column containing the 
+                               values which will be used to parse the dataframe into
+                               one or multiple data sets 
+        :param column_values: The values contained in the parsing_header column 
+                              that will be used to parse the data set into 
+                              multiple data sets 
+        :param style_name: The name of the matplotlib style that will be used to
+                           format the plot.  Defaulted to 'default'.  Possible
+                           styles can be found at :href
+                           `styles<https://matplotlib.org/stable/api/style_api.html>`
+        :param line_colors: A list of line colors, where each marker color 
+                            corresponds to each data set.  This parameter has a 
+                            default color lists that can accomodate 18 different
+                            data sets.  The user can override the default colors
+                            with a list of their own.  Potential colors can be
+                            found at :href `colors<https://matplotlib.org/stable/gallery/color/named_colors.html>`
+        :param line_weight: The weight corresponding to the line thickness, defaulted to 2.0
+        :param fill_apha: The density of the marker fill.  Defaulted to 0.7
+        :param x_label: The x axis label,defaulted to ' '
+        :param y_label: The y axis label, defaulted to ' '
+        :param title: The plot title, defaulted to ' '
+        :param label_pos: The position of the legend in the plot.  Defaulted to 'upper right'
+        :param x_scale: 'LOG' or 'LIN', defaulted to 'LIN'
+        :param y_scale: 'LOG' or 'LIN', defaulted to 'LIN'
+        :param plot_name: The name of the file containing the plot if the plot is to
+                          be saved.  Defaulted to 'NULL'
+        :param save: True if the plot is to be saved, False if the plot is to be
+                     shown and not saved.  Defaulted to False
+        :param label_font_size: The label font size, defaulted to 18
+        :param tick_font_size: The tick font size, defaulted to 18
+        :param title_font_size: The title font size, defaulted to 24
+        :param marker_size: The size of the marker, defaulted to 35
+        :param marker_edge_width: The thickness of the line outlining 
+                                  each marker.  Defaulted to 0.8
+        :param grid: True if a grid overlaid on the plot is desired, False if not
+        :param grid_color: Defaulted to 'grey'
+        :grid_style: Defaulted to '-'
+
+        This method will parse a dataframe column based on a user specified 
+        value or list of values, and plot the data in a user specified
+        x and y axis column based on filter data.  As an example, consider
+        a dataframe with the following columnar data structure.
+
+        .. code-block:: python
+
+           > length = 20
+           > x = np.linspace(0, length, num=length)
+           > linear = x
+           > squared = x ** 2.0
+           > lin = np.repeat('linear', length)
+           > sq = np.repeat('squared', length)
+           > # Combine arrays into one
+           > x = np.hstack((x, x))
+           > y = np.hstack((linear, squared))
+           > power = np.hstack((lin, sq))
+           > # Create dataframe
+           > dictionary = {'x': x, 'y': y, 'power': power}
+           > df = pd.DataFrame(dictionary)
+           > # Plot data
+           > obj = MatPlotDataFrame(df)
+           > parsing_header = 'power'
+           > column_values = ['linear', 'squared']
+           obj.line_plot_filter_column('x', 'y', parsing_header, 
+                                       column_values, 
+                                       marker_colors=['red', 'green'], 
+                                       marker_style=['o', '^'], 
+                                       label_pos='upper left')
+
+        .. image:: line_scatter_test1.eps
+           :align: center
+        """
+        max_date = self.df[x_header].max()
+        min_date = self.df[x_header].min()
+        diff = (max_date - min_date) / np.timedelta64(1, 'D')
+        df_list = [self.df[self.df[parsing_header] == col_val] for 
+                   col_val in column_values]
+        df_list = [df.set_index(x_header) for df in df_list]
+
+        # Error checking
+        if line_colors[0] == 'None':
+            line_colors = self.colors
+        if len(line_colors) < len(column_values):
+            msg1 = 'FATAL ERROR: The length of the marker color list must be as '
+            msg2 =  'large or larger than the size of the column values'
+            sys.exit(msg + ms2)
+        if save and plot_name == 'NULL':
+            warnings.warn('if save is True then plot name cannot be NULL')
+        if y_scale != 'LOG' and y_scale != 'LIN':
+            warnings.warn('y_scale must be set to LOG or LIN')
+        if x_scale != 'LOG' and x_scale != 'LIN':
+            warnings.warn('y_scale must be set to LOG or LIN')
+        # begin plot
+        plt.rcParams.update({'figure.autolayout': True})
+        plt.style.use(style_name)
+        fig, td_plot = plt.subplots()
+        rc('xtick', labelsize=tick_font_size)
+        rc('ytick', labelsize=tick_font_size)
+        td_plot.set_xlabel(x_label, fontsize=label_font_size)
+        td_plot.set_ylabel(y_label, fontsize=label_font_size)
+        if title != 'NULL':
+            td_plot.set_title(title, fontsize=title_font_size)
+        if x_scale.upper() == 'LOG':
+            td_plot.set_xscale('log')
+        if y_scale.upper() == 'LOG':
+            td_plot.set_yscale('log')
+        # TODO if less than 15 days plot month day with at least 3 ticks or 1 tick for every 2 days
+        # TODO if less than 180 days plot at least 5 ticks or one tick for every month
+        # TODO if less than 360 days plot at at least five ticks or one tick for every two months
+        # TODO if less than 180 days plot at least five ticks or one tick for every two months
+        # TODO if less than 
+        if diff <= 2:
+            myfmt = mdates.DateFormatter('%H')
+            td_plot.xaxis.set_major_locator(plt.MaxNLocator(6))
+        elif diff <= 15:
+            myfmt = mdates.DateFormatter('%b-%d')
+            td_plot.xaxis.set_major_locator(plt.MaxNLocator(6))
+        elif diff <= 180:
+            myfmt = mdates.DateFormatter('%b-%Y')
+            td_plot.xaxis.set_major_locator(plt.MaxNLocator(5))
+        elif diff <= 2191:
+            myfmt = mdates.DateFormatter('%Y')
+            td_plot.xaxis.set_major_locator(plt.MaxNLocator(5))
+        else:
+            myfmt = mdates.DateFormatter('%Y')
+            td_plot.xaxis.set_major_locator(plt.MaxNLocator(5))
+
+        td_plot.xaxis.set_major_formatter(myfmt)
+        for i in range(len(df_list)):
+            td_plot.plot(df_list[i].index, df_list[i][y_header],
+                         label=column_values[i], linestyle=line_style, 
+                         color=line_colors[i], linewidth=line_weight)
+        plt.legend(loc=label_pos)
+        if grid:
+            plt.grid(color=grid_color, linestyle=grid_style)
+        if not save:
+            plt.show()
+        else:
+            plt.savefig(plot_name)
 # ================================================================================
 # ================================================================================
 # eof
 
-# TODO Create a new function to plot multiple columns
-        # TODO Repeat first two for line plots
-        # TODO Create histogram version of plots
-        # TODO Repeat for Bokeh plots
+# TODO Create datetime plots
+# TODO Create histogram version of plots
+# TODO Repeat for Bokeh plots
