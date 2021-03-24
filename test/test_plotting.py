@@ -227,6 +227,45 @@ def test_matplot_scatter_plot_columns():
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
+# --------------------------------------------------------------------------------
+
+
+def test_matplot_line_plot_parse_column():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/line1.eps'
+    else:
+        plt_name = r'..\data\test\line.eps'
+    length = 20
+    x = np.linspace(0, 20, num=20)
+    linear = x
+    squared = x ** 2.0
+    lin = np.repeat('linear', 20)
+    sq = np.repeat('squared', 20)
+   
+    # Combine arrays into one
+    x = np.hstack((x, x))
+    y = np.hstack((linear, squared))
+    power = np.hstack((lin, sq))
+
+    # Create dataframe
+    dictionary = {'x': x, 'y': y, 'power': power}
+    df = pd.DataFrame(dictionary)
+
+    # Plot data
+    obj = MatPlotDataFrame(df)
+
+    parsing_header = 'power'
+    column_values = ['linear', 'squared']
+    obj.line_plot_parse_column('x', 'y', parsing_header, column_values, 
+                               x_label='x-axis', y_label='y-axis', title='Test', 
+                               style_name='default', line_colors=['red', 'green'], 
+                               fill_alpha=0.7, 
+                               label_pos='upper left', grid=True, save=True,
+                               plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
 # ================================================================================
 # ================================================================================
 # eof
