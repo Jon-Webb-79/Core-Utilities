@@ -210,11 +210,11 @@ def test_matplot_scatter_plot_columns():
     linear = x
     squared = x ** 2.0
 
-    # Create dataframe
+    # create dataframe
     dictionary = {'x': x, 'linear': linear, 'squared': squared}
     df = pd.DataFrame(dictionary)
 
-    # Plot data
+    # plot data
     obj = MatPlotDataFrame(df)
     x_headers = ['x', 'x']
     y_headers = ['linear', 'squared']
@@ -263,6 +263,37 @@ def test_matplot_line_plot_parse_column():
                                fill_alpha=0.7, 
                                label_pos='upper left', grid=True, save=True,
                                plot_name=plt_name)
+    #assert os.path.isfile(plt_name)
+    #if os.path.isfile(plt_name):
+    #    os.remove(plt_name)
+# --------------------------------------------------------------------------------
+
+
+def test_matplot_line_plot_column():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/line2.eps'
+    else:
+        plt_name = r'..\data\test\line2.eps'
+    length = 20
+    x = np.linspace(0, 20, num=20)
+    linear = x
+    squared = x ** 2.0
+
+    # create dataframe
+    dictionary = {'x': x, 'linear': linear, 'squared': squared}
+    df = pd.DataFrame(dictionary)
+
+    # plot data
+    obj = MatPlotDataFrame(df)
+    x_headers = ['x', 'x']
+    y_headers = ['linear', 'squared']
+    obj.line_plot_column(x_headers, y_headers, y_headers, 
+                         x_label='x-axis', y_label='y-axis', title='Test', 
+                         style_name='default', line_colors=['red', 'green'], 
+                         fill_alpha=0.7, 
+                         label_pos='upper left', grid=True, save=True,
+                         plot_name=plt_name)
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
