@@ -369,6 +369,34 @@ def test_matplot_timedate_plot_parse_column():
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
+# --------------------------------------------------------------------------------
+
+
+def test_histogram_plot_parse_column():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/hist1.eps'
+    else:
+        plt_name = r'..\data\test\hist1.eps'
+    np.random.seed(19680801)
+    x = np.random.normal(15.0, 3.0, 1000)
+    y = np.random.normal(20.0, 3.0, 1000)
+    data = [x, y]
+    labels = ['one', 'two']
+    one = np.repeat('one', len(x))
+    two = np.repeat('two', len(x))
+    x = np.hstack((x, y))
+    y = np.hstack((one, two))
+
+    dictionary = {'data': x, 'type': y}
+    df = pd.DataFrame(dictionary)
+    obj = MatPlotDataFrame(df)
+    obj.histogram_plot_parse_column('data', 'type', labels, x_label='x-axis', 
+                                    y_label='y-axis', shading=[0.9, 0.4], save=True,
+                                    plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
 # ================================================================================
 # ================================================================================
 # eof
