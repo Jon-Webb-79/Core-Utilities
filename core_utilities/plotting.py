@@ -1554,6 +1554,108 @@ class MatPlotDataFrame:
         else:
             plt.savefig(plot_name)
         plt.close()
+# --------------------------------------------------------------------------------
+
+    def histogram_plot_columns(self, x_headers: List[str], labels: List[str], 
+                               x_label: str='', 
+                               y_label: str='', colors: List[str]=['None'], 
+                               edge_colors: List[str]=['None'], 
+                               shading: List[float]=['None'], label_pos: str='upper right', 
+                               num_bins: int = 50, 
+                               tick_font_size: int = 18, label_font_size: str = 18, 
+                               style_name: str = 'default', save: bool = False, 
+                               plot_name: str = 'NULL', hist_type: str = 'bar', 
+                               dens: bool = False, title: str = 'NULL', 
+                               title_font_size: int = 24) -> None:
+        """
+
+        :param x_headers: A list of strings representing the dataframe columns to be 
+                         used for the x axis of a plot
+        :param labels: A list of labels, each label corresponding to each
+                       histogram
+        :param x_label: The title for the x axis. Defaulted to ''
+        :param y_label: The title for the y axis. Defaulted to ''
+        :param colors: A list containing the colors that will be used to represent
+                       each plot.
+        :param edge_colors: A list of line colors, where each marker color 
+                            corresponds to each data set.  This parameter has a 
+                            default color lists that can accomodate 18 different
+                            data sets.  The user can override the default colors
+                            with a list of their own.  Potential colors can be
+                            found at :href
+                            `colors<https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+        :param shading: The density of the fill for each plot, defaulted to 0.7
+        :param label_pos: The position of the ledgend in the plot. Defaulted to 'upper_right'
+        :param num_bins: The number of bins used to represent the histogram.  Defaulted to 50
+        :param tick_font_size: The font size of the plot ticks. Defaulted to 18
+        :param label_font_size: The font size of plot labels.  Defaulted to 18
+        :param style_name: The plot style, defaulted to 'default'. Acceptable styles can be 
+                           found at 
+                           `matplotlib styles <https://matplotlib.org/3.2.1/gallery/style_sheets/style_sheets_reference.html>`_.
+        :param save: True if the plot is to be saved, False if the plot is only to be
+                     shown
+        :param plot_name: The name of the plot, if it is to be saved
+        :param hist_type: {``bar``, ``barstacked``, ``step``, ``stepfilled``}
+                          See
+                          `histogram <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.hist.html>`_
+                          for more information.
+        :param dens: If True, the first element of the return tuple will be the counts
+                     normalized to form a probability density, i.e., the area (or integral)
+                     under the histogram will sum to 1
+        :param title: The title of the plot to incorporate into the header.  Defaulted to NULL
+        :param title_font_size: The font size for the tile, defaulted to 24
+
+        .. code-block:: python
+
+           > np.random.seed(19680801)
+           > x = np.random.normal(15.0, 3.0, 1000)
+           > y = np.random.normal(20.0, 3.0, 1000)
+           > data = [x, y]
+           > labels = ['one', 'two']
+           > one = np.repeat('one', len(x))
+           > two = np.repeat('two', len(x))
+           > x = np.hstack((x, y))
+           > y = np.hstack((one, two))
+           > dictionary = {'data': x, 'type': y}
+           > df = pd.DataFrame(dictionary)
+           > obj = MatPlotDataFrame(df)
+           > obj.histogram_plot_parse_column('data', 'type', labels, x_label='x-axis', 
+                                             y_label='y-axis', shading=[0.9, 0.4], save=True,
+
+        .. image:: hist2.eps
+           :align: center
+        """
+        if colors[0] == "None":
+            colors = self.colors
+        if edge_colors[0] == 'None':
+            edge_colors = np.repeat('black', len(labels))
+        if shading[0] == "None":
+            shading = np.repeat(0.7, len(labels))
+
+        plt.tight_layout()
+        plt.gcf().subplots_adjust(bottom=0.15)
+        plt.rcParams.update({'figure.autolayout': True})
+        plt.style.use(style_name)
+        rc('xtick', labelsize=tick_font_size)
+        rc('ytick', labelsize=tick_font_size)
+        plt.xlabel(x_label, fontsize=label_font_size)
+        plt.ylabel(y_label, fontsize=label_font_size)
+        if title != 'NULL':
+            plt.title(title, fontsize=title_font_size)
+   
+        if title != 'NULL':
+            plt.title(title, fontsize=title_font_size)
+
+        for i in range(len(x_headers)):
+            plt.hist(self.df[x_headers[i]], bins=num_bins, color=colors[i], 
+                     edgecolor=edge_colors[i], alpha=shading[i], label=labels[i], 
+                     density=dens)
+        plt.legend(loc=label_pos)
+        if not save:
+            plt.show()
+        else:
+            plt.savefig(plot_name)
+        plt.close()
 # ================================================================================
 # ================================================================================
 # eof

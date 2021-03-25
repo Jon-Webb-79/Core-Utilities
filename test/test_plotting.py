@@ -397,6 +397,29 @@ def test_histogram_plot_parse_column():
     assert os.path.isfile(plt_name)
     if os.path.isfile(plt_name):
         os.remove(plt_name)
+# --------------------------------------------------------------------------------
+
+
+def test_histogram_plot_columns():
+    plat = platform.system()
+    if plat == 'Darwin':
+        plt_name = '../data/test/hist2.eps'
+    else:
+        plt_name = r'..\data\test\hist2.eps'
+    np.random.seed(19680801)
+    x = np.random.normal(15.0, 3.0, 1000)
+    y = np.random.normal(20.0, 3.0, 1000)
+    data = [x, y]
+    labels = ['one', 'two']
+    dictionary = {'x': x, 'y': y}
+    df = pd.DataFrame(dictionary)
+    obj = MatPlotDataFrame(df)
+    obj.histogram_plot_columns(['x', 'y'], labels, x_label='x-axis', 
+                                y_label='y-axis', shading=[0.9, 0.4], 
+                                save=True, plot_name=plt_name)
+    assert os.path.isfile(plt_name)
+    if os.path.isfile(plt_name):
+        os.remove(plt_name)
 # ================================================================================
 # ================================================================================
 # eof
